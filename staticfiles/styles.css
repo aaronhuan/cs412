@@ -1,0 +1,30 @@
+ul {
+    list-style: none;
+    display:flex;
+    gap: 3vw;
+}
+
+li {
+    display: inline;
+}
+
+a{
+    text-decoration: none;
+    font-style: italic;
+}
+
+main h1 {
+    text-align: center;
+}
+
+/* make images the same size */
+img{ 
+    width: 300px;
+    height: auto;
+}
+
+.quote { /*make quotes italicized and have padding around */
+    font-style: italic;
+    padding: 5vw;
+    text-align: center;
+}
