@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="{% static 'styles.css' %}">
+    <title>Quotes from Steve Jobs</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href = "{% url 'quote' %}">Quote of the Day</a></li>
+            <li><a href ="{% url 'show_all' %}">Show All</a></li>
+            <li><a href ="{% url 'about' %}">About</a></li>
+        </ul>
+    </nav>
+    <main>
+        <hr/>
+        <h1>Quotes from Steve Jobs</h1>
+        <!-- for other templates to inherit this base template -->
+        {% block content %}
+
+        {% endblock %}
+    </main>
+    <footer>
+        <hr/>
+        <p>&copy; Aaron Huang, ahuan@bu.edu</p>
+    </footer>
+</body>
+
+</html>
