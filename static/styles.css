@@ -1,3 +1,7 @@
+body{
+    background-color: lightgrey;
+}
+
 ul {
     list-style: none;
     display:flex;
@@ -6,6 +10,8 @@ ul {
 
 li {
     display: inline;
+    font-family: 'Courier New', Courier, monospace;
+    color: purple
 }
 
 a{
@@ -13,6 +19,10 @@ a{
     font-style: italic;
 }
 
+a:hover{
+    color: darkorchid;
+    text-decoration: underline;
+}
 main h1 {
     text-align: center;
 }
@@ -20,11 +30,38 @@ main h1 {
 /* make images the same size */
 img{ 
     width: 300px;
-    height: auto;
+    height: 200px;
 }
 
 .quote { /*make quotes italicized and have padding around */
-    font-style: italic;
+    font-style: italic;  
     padding: 5vw;
     text-align: center;
+    background-color: whitesmoke;
+}
+
+.quote-img-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.quote-container{
+    display: flex;
+    align-items: flex-start;
+    width: 80%;
+    background-color: whitesmoke;
+}
+
+footer{
+    text-align: center;
+    font-size: small;
+    font-style: italic;
+    padding: 1vh;
+    margin-top: 5vh;
+    border-top: 1px solid black;
+}
+
+.img-container{
+    display: flex;
+    justify-content: space-between;
 }

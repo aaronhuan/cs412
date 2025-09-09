@@ -8,6 +8,10 @@ Description: The quote.html template extends the base.html template and displays
 
 {% block content %}
     <h2>Quote of the Day</h2>
-    <p class="quote">"{{quote}}"</p>
-    <img src=" {{image}}"/>
+    <div class="quote-img-container">
+        <img src=" {{image}}"/>
+        <div class="quote-container">
+            <p class="quote">"{{quote}}"</p>
+        </div>
+    </div>
 {% endblock %}

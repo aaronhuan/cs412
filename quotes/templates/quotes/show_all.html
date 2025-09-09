@@ -15,7 +15,9 @@ Description: The show_all.html template extends the base.html template and displ
     {% endfor %}
 
     {% comment %} loop through all images in the images list passed from the view and display it {% endcomment %}
-    {% for img in images %} 
-        <img src="{{img}}"/>
-    {% endfor %}
+    <div class="img-container">
+        {% for img in images %} 
+            <img src="{{img}}"/>
+        {% endfor %}
+    </div>
 {% endblock %}
