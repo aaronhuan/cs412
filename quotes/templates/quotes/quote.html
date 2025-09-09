@@ -1,7 +1,13 @@
+<!-- 
+File: quote.html
+Author: Aaron Huang (ahuan@bu.edu),09/09/2025
+Description: The quote.html template extends the base.html template and displays a random quote and image of Steve Jobs.
+-->
+
 {% extends 'quotes/base.html' %}
 
-    {% block content %}
-        <h2>Quote of the Day</h2>
-        <p class="quote">" {{quote}} "</p>
-        <img src=" {{image}}"/>
-    {% endblock %}
+{% block content %}
+    <h2>Quote of the Day</h2>
+    <p class="quote">"{{quote}}"</p>
+    <img src=" {{image}}"/>
+{% endblock %}
