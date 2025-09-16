@@ -1,0 +1,46 @@
+<!--
+File: confirmation.html
+Author: Aaron Huang (ahuan@bu.edu), 09/16/2025
+Description: The order.html template extends the base.html template and provides for a page to place a restaurant order.
+-->
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+    <h2>Order Page</h2>
+    <div class="center-order">
+        <form action="{% url 'confirmation' %}" method="POST" class="order-form"> {% comment %} form w/ Post method, redirects to submit when submitted {% endcomment %}
+            {% csrf_token %} {% comment %} CSRF token for security and allow post request {% endcomment %}
+            <h3>Select your items:</h3>
+            <input type="checkbox" name ="noodles">Noodles $10 
+            <div class="extra">
+                <p>Add additional toppings</p>
+                <input type="checkbox" name = "extra_egg"> Egg $2 <br>
+                <input type="checkbox" name = "extra_green_onion"> Green Onion $1 <br>
+            </div> <br>
+            <input type="checkbox" name = "bean_buns">Bean Buns $2 <br>
+            <input type="checkbox" name = "dumplings">Dumplings $7<br>
+            <input type="checkbox" name = "almond_cookies">Almond Cookies $2 <br>
+            <input type="checkbox" name = "tofu_dessert">Tofu Dessert $3<br>
+            
+            <h3> Today's Special:</h3>
+            <input type = "checkbox" name ={{daily_special_item}}> {{special_items_display}} <br>
+
+            <h3>Special Instructions</h3>
+            <textarea  name = "special_instructions" class= "longer-text"></textarea> <br>
+
+            <h3>Customer Information</h3>
+            <p>Name:</p> 
+            <input type="text" name = "name"> <br>
+            <p>Phone Number:</p> 
+            <input type="text" name = "phone_number"> <br>
+            <p>Email:</p>
+            <input type="text" name = "email"> <br>
+
+            <h3>Place your order:</h3>
+            <input type = "submit"> 
+        </form>
+    </div>
+
+
+      
+{% endblock %}

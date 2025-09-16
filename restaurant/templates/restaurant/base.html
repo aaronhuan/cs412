@@ -1,0 +1,36 @@
+<!-- 
+File: base.html
+Author: Aaron Huang (ahuan@bu.edu),09/15/2025
+Description: A base template for the restaurant app. Contains common HTML structure and navigation.
+-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="{% static 'styles.css' %}">
+    <title>Mr. Ping's Noodle Shop</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href ="{% url 'main' %}">Main</a></li>
+            <li><a href = "{% url 'order' %}"> Order</a></li>
+        </ul>
+    </nav>
+    <main>
+        <hr/>
+        <h1>Mr. Ping's Noodle Shop</h1>
+        <!-- for other templates to inherit this base template -->
+        {% block content %}
+
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; Aaron Huang, ahuan@bu.edu</p>
+    </footer>
+</body>
+
+</html>

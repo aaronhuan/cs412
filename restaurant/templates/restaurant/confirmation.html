@@ -1,0 +1,34 @@
+<!--
+File: confirmation.html
+Author: Aaron Huang (ahuan@bu.edu), 09/15/2025
+Description: The confirmation.html template extends the base.html template, and provides for a page to confirm a restaurant order.
+-->
+
+
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<h2>Order Confirmation</h2>
+<div class="center-order">
+    <div class="order-form">
+
+        <p>Thank you for your order! Your delicious food will be ready soon.</p>
+        <p>Name: {{name}}</p>
+        <p>Phone Number: {{phone_number}}</p>
+        <p>Email: {{email}}</p>
+        <p>Special Instructions: {{special_instructions}}</p>
+        <p>You have ordered:</p>
+
+        <ul>
+            {% comment %} iterate through the ordered_items list per item {$ endcomment %}
+            {% comment %} display each item in the list {% endcomment %}
+            {% for item in ordered_items %} 
+            <li>{{ item }}</li> 
+            {% endfor %}
+        </ul>
+
+
+        <p>total price:{{total_price}}</p> {% comment %} display total price {% endcomment %}
+    </div>
+</div>
+{% endblock%}
