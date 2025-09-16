@@ -3,6 +3,7 @@
 #Description: Views for the restaurant app handling main, order, and confirmation pages.
 
 import random
+import time
 from django.shortcuts import render
 # Create your views here.
 
@@ -116,7 +117,8 @@ def confirmation(request):
             "email": email,
             "special_instructions": special_instructions,
             "ordered_items": selected_items,
-            "total_price": total_price
+            "total_price": total_price,
+            "ready_time": time.strftime("%I:%M %p", time.localtime(time.time() + 30*60)),  #use time module to get current time + 30 minutes
         }
 
     return render(request, 'restaurant/confirmation.html', context)
