@@ -1,0 +1,18 @@
+<!-- blog/show_all.html -->
+
+<h1>Showing all articles</h1>
+
+<!-- {{articles}} -->
+
+<div>
+    {% for article in articles %}
+    <div>
+        <h2>{{article.title}}</h2>
+        <h3>by {{article.author}}</h3>
+        <p>
+            {{article.text}}
+        </p>
+        <img src = "{{article.image_url}}" alt="">
+    </div>
+    {% endfor %}
+</div>
