@@ -1,7 +1,10 @@
+# File: urls.py
+# Author: Aaron Huang (ahuan@bu.edu),09/24/2025
+# Description: urls.py exposes endpoints and delegates a response to a view function 
+
 from django.urls import path
 from . import views
 urlpatterns = [
-    path("", views.ProfileListView.as_view(), name="homepage"),
-    path("show_all_profiles/", views.ProfileListView.as_view(), name = "display_all_profile" ),   
-    path("profile/<int:pk>", views.ProfileDetailView.as_view(), name= "display_profile"),
+    path("", views.ProfileListView.as_view(), name="show_all_profiles"),
+    path("profile/<int:pk>", views.ProfileDetailView.as_view(), name= "show_one_profile"),
 ]

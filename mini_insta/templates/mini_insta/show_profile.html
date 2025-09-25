@@ -1,8 +1,14 @@
+<!-- 
+File: mini_insta/show_profile.html
+Author: Aaron Huang (ahuan@bu.edu), 09/24/2025
+Description: The show_profile.html template displays a profile in mini_insta. 
+-->
+
 {% extends 'mini_insta/base.html' %}
 
 {% block content%}
 
-<div>
+<div class="single_profile">
         <h2>{{profile.username}}</h2>
         <h2>{{profile.display_name}}</h2>
         <p>Bio: {{profile.bio_text}}</p>

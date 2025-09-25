@@ -1,20 +1,41 @@
-<!-- mini_insta/show_all_profiles.html -->
-
+<!-- 
+File: mini_insta/show_all_profiles.html
+Author: Aaron Huang (ahuan@bu.edu), 09/24/2025
+Description: The show_all_profiles.html template displays all profiles in mini_insta in a table. 
+ -->
 {% extends 'mini_insta/base.html'%}
 
 {% block content%}
-<h1>Show all</h1>
+<h1>All profiles</h1>
 
 <div>
-    {% for profile in profiles %}
+    
     <div>
-        <h2>{{profile.username}}</h2>
-        <h2>{{profile.display_name}}</h2>
-        <p>Bio: {{profile.bio_text}}</p>
-        <p>Joined: {{profile.join_date}}</p>
-        <a href="{% url 'display_profile' profile.pk%}"><img src = "{{profile.profile_image_url}}" alt = "{{display_name}}'s profile"></a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Display Name</th>
+                    <th>Bio</th>
+                    <th>Join Date</th>
+                    <th>Profile Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in profiles %} {% comment %} Iterating over 'profiles' to add a table row with username, display name, bio, join date, and profile image {% endcomment %}
+                <tr>
+                    <td>{{profile.username}}</td>
+                    <td>{{profile.display_name}}</td>
+                    <td>{{profile.bio_text}}</td>
+                    <td>{{profile.join_date}}</td>
+                    <td><a href="{% url 'show_one_profile' profile.pk%}"><img src = "{{profile.profile_image_url}}" alt = "{{display_name}}'s profile"></a></td>
+                    {% comment %}wrap image tag with an link to direct the user to the 1 profile page{% endcomment %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    {% endfor %}
+    
 </div>
 
 {% endblock %}

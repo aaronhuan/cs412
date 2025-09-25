@@ -1,3 +1,7 @@
+# File: models.py
+# Author: Aaron Huang (ahuan@bu.edu),09/24/2025
+# Description: File that creates a Profile model with 5 fields and a string function
+
 from django.db import models
 
 # Create your models here.

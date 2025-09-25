@@ -1,23 +1,29 @@
-
+<!-- 
+File: mini_insta/base.html
+Author: Aaron Huang (ahuan@bu.edu), 09/25/2025
+Description: The base.html template provides a common structure for all pages in the application, including a navigation bar and footer.
+ -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href="{% static 'styles.css' %}">
+    <link rel = "stylesheet" href="{% static 'mini_insta_styles.css' %}">
     <title>Mini Instagram</title>
 </head>
 <body>
-    {% block content%}
-
-
-    {% endblock %}
-    <footer>
+    <nav>
         <ul>
-            <li><a href = "{% url 'display_all_profile' %}"> All profiles</a></li>
+            <li><a href = "{% url 'show_all_profiles' %}"> All profiles</a></li>
         </ul>
-    </footer>
+    </nav>
+    <main>
+        {% block content%}
 
+
+        {% endblock %}
+    </main>
+    <footer><p>&copy; Aaron Huang, ahuan@bu.edu</p></footer>
 </body>
 </html>
