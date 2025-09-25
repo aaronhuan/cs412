@@ -22,13 +22,14 @@ Description: The show_all_profiles.html template displays all profiles in mini_i
                 </tr>
             </thead>
             <tbody>
-                {% for profile in profiles %} {% comment %} Iterating over 'profiles' to add a table row with username, display name, bio, join date, and profile image {% endcomment %}
+                {% comment %} Iterating over 'profiles' to add a table row with username, display name, bio, join date, and profile image {% endcomment %}
+                {% for profile in profiles %} 
                 <tr>
                     <td>{{profile.username}}</td>
                     <td>{{profile.display_name}}</td>
                     <td>{{profile.bio_text}}</td>
                     <td>{{profile.join_date}}</td>
-                    <td><a href="{% url 'show_one_profile' profile.pk%}"><img src = "{{profile.profile_image_url}}" alt = "{{display_name}}'s profile"></a></td>
+                    <td><a href="{% url 'show_one_profile' profile.pk%}"><img src = "{{ profile.profile_image_url }}" alt = "{{ display_name }}'s profile"></a></td>
                     {% comment %}wrap image tag with an link to direct the user to the 1 profile page{% endcomment %}
                 </tr>
                 {% endfor %}

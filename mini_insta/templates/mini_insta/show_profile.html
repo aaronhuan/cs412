@@ -23,7 +23,7 @@ Description: The show_profile.html template displays a profile in mini_insta.
                 <td>{{profile.display_name}}</td>
                 <td>{{profile.bio_text}}</td>
                 <td>{{profile.join_date}}</td>
-                <td><a href="{% url 'show_one_profile' profile.pk%}"><img src = "{{profile.profile_image_url}}" alt = "{{display_name}}'s profile"></a></td>
+                <td><a href="{% url 'show_one_profile' profile.pk%}"><img src = "{{ profile.profile_image_url }}" alt = "{{ display_name }}'s profile"></a></td>
         </tr>
 </table>
 
