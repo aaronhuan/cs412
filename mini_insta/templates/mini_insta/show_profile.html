@@ -8,12 +8,23 @@ Description: The show_profile.html template displays a profile in mini_insta.
 
 {% block content%}
 
-<div class="single_profile">
-        <h2>{{profile.username}}</h2>
-        <h2>{{profile.display_name}}</h2>
-        <p>Bio: {{profile.bio_text}}</p>
-        <p>Joined: {{profile.join_date}}</p>
-        <img src = "{{profile.profile_image_url}}" alt = "{{display_name}}'s profile">
-</div>
+<table>
+        <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Display Name</th>
+                    <th>Bio</th>
+                    <th>Join Date</th>
+                    <th>Profile Image</th>
+                </tr>
+        </thead>
+        <tr>
+                <td>{{profile.username}}</td>
+                <td>{{profile.display_name}}</td>
+                <td>{{profile.bio_text}}</td>
+                <td>{{profile.join_date}}</td>
+                <td><a href="{% url 'show_one_profile' profile.pk%}"><img src = "{{profile.profile_image_url}}" alt = "{{display_name}}'s profile"></a></td>
+        </tr>
+</table>
 
 {% endblock %}
