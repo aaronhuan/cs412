@@ -26,5 +26,16 @@ Description: The show_profile.html template displays a profile in mini_insta.
                 <td><a href="{% url 'show_profile' profile.pk%}"><img src = "{{ profile.profile_image_url }}" alt = "{{ display_name }}'s profile"></a></td>
         </tr>
 </table>
-
+<h2>Posts</h2>
+{% for post in profile.get_all_posts %}
+        {% with post.get_first_photo as photo %}
+                <a href ="{% url 'show_post' post.pk %}">
+                {% if photo %}
+                        <img src = "{{ photo.image_url }}">
+                {% else %}
+                        <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
+                {% endif %}
+                </a> 
+        {% endwith %}
+{% endfor %}
 {% endblock %}

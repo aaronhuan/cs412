@@ -1,0 +1,14 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+
+<p>{{post.timestamp}} </p>
+
+{% for photo in post.get_all_photos %}
+    <img src = "{{ photo.image_url }}">
+{% empty %}
+    <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
+{% endfor %}
+<p>{{post.caption}} </p>
+
+{% endblock %}
