@@ -6,12 +6,22 @@ Description: The show_post handles making a detailed view of one post, its times
 {% extends 'mini_insta/base.html' %}
 
 {% block content %}
-<p>{{post.timestamp}} </p>
-{% comment %} iterate through all the photos {% endcomment %}
-{% for photo in post.get_all_photos %} 
-    <img src = "{{ photo.image_url }}">
-{% empty %} {% comment %} if the photo url is empty/not available use a image to show that{% endcomment %}
-    <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
-{% endfor %}
+<a href="{% url 'show_profile' post.profile.pk %}" class="btn">←Back</a>
+<div class = "media-post">
+    {% comment %} iterate through all the photos {% endcomment %}
+    {% for photo in post.get_all_photos %} 
+        <img src = "{{ photo.image_url }}">
+    {% empty %} {% comment %} if the photo url is empty/not available use a image to show that{% endcomment %}
+        <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
+    {% endfor %}
+</div>
+
+
+{% if post.caption %}
 <p>{{post.caption}} </p>
+{% endif%}
+
+
+<time>{{post.timestamp}} </time>
+
 {% endblock %}
