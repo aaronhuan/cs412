@@ -1,0 +1,31 @@
+<!-- 
+File: mini_insta/create_post_form.html
+Author: Aaron Huang (ahuan@bu.edu), 9/30/2025
+Description: The create_post_form handles creating a form for the user to fill out and make a post
+-->
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<a href="{% url 'show_profile' profile.pk %}" class="btn">←Back</a>
+<form method="POST">
+    {% csrf_token %}
+    <div class="create-form">
+        <div>
+            <label>Caption</label>
+            {{form.caption}}
+        </div>
+
+        <div>
+            <label>Image URL</label>
+            <input type="url" name="image_url" > <!-- for image_url -->
+        </div>
+        
+        <div>
+            <button type="submit">Submit</button>
+            <a href ="{% url 'show_profile' profile.pk %}">Cancel</a>
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}

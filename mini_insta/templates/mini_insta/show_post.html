@@ -1,14 +1,17 @@
+<!-- 
+File: mini_insta/show_post.html
+Author: Aaron Huang (ahuan@bu.edu), 9/29/2025
+Description: The show_post handles making a detailed view of one post, its timestamp when made, picture, and caption
+-->
 {% extends 'mini_insta/base.html' %}
 
 {% block content %}
-
 <p>{{post.timestamp}} </p>
-
-{% for photo in post.get_all_photos %}
+{% comment %} iterate through all the photos {% endcomment %}
+{% for photo in post.get_all_photos %} 
     <img src = "{{ photo.image_url }}">
-{% empty %}
+{% empty %} {% comment %} if the photo url is empty/not available use a image to show that{% endcomment %}
     <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
 {% endfor %}
 <p>{{post.caption}} </p>
-
 {% endblock %}
