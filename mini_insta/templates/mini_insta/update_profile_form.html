@@ -1,0 +1,23 @@
+{% extends 'mini_insta/base.html'%}
+
+{% block content%}
+
+<form method="POST">
+{% csrf_token %}
+<label>Display Name</label>
+{{ form.display_name}}
+
+<label>Bio Text</label>
+{{ form.bio_text}}
+
+<label>Profile Image URL</label>
+{{ form.profile_image_url}}
+
+<button type="submit">Update</button>
+</form>
+
+<form action="{% url 'show_profile' profile.pk %}" method="GET" style="margin-top: 0.75rem;">
+  <button type="submit">Cancel</button>
+</form>
+
+{% endblock %}

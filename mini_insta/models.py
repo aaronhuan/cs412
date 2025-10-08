@@ -23,6 +23,10 @@ class Profile(models.Model):
         posts = Post.objects.filter(profile=self).order_by('-timestamp')
         return posts 
     
+    def get_absolute_url(self):
+        """Return the absolute URL for this profile detail page."""
+        return reverse('show_profile', kwargs={'pk': self.pk})
+    
 class Post(models.Model):
     """Represent a single post authored by a profile"""
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

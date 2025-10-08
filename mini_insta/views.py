@@ -4,8 +4,8 @@
 
 from django.shortcuts import render
 from .models import *
-from .forms import CreatePostForm
-from django.views.generic import ListView, DetailView, CreateView
+from .forms import CreatePostForm, UpdateProfileForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 # Create your views here.
 
 class ProfileListView(ListView):
@@ -59,3 +59,11 @@ class CreatePostView(CreateView):
             Photo.objects.create(post=self.object, image_file=image)
             
         return response
+    
+
+class UpdateProfileView(UpdateView):
+    form_class= UpdateProfileForm
+    model = Profile
+    template_name= "mini_insta/update_profile_form.html"
+
+    
