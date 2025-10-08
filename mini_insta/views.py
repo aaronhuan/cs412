@@ -46,10 +46,16 @@ class CreatePostView(CreateView):
         form.instance.profile = profile
 
         response = super().form_valid(form)
-        image_url = self.request.POST.get("image_url").strip() # remove empty space
-        if image_url =="": #if its blank
-            form.add_error(None, "Image URL is required")
-            return self.form_invalid(form)
-        Photo.objects.create(post=self.object, image_url=image_url)
+        # image_url = self.request.POST.get("image_url").strip() # remove empty space
+        # if image_url =="": #if its blank
+        #     form.add_error(None, "Image URL is required")
+        #     return self.form_invalid(form)
+        # Photo.objects.create(post=self.object, image_url=image_url)
 
+        images = self.request.FILES.getlist("imagefiles") #returns a list of 0 to many files 
+        #process this with a loop to create an save Photo objects
+
+        for image in images:
+            Photo.objects.create(post=self.object, image_file=image)
+            
         return response

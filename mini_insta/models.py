@@ -50,9 +50,19 @@ class Post(models.Model):
 class Photo(models.Model):
     """Represent a single photo authored by a post"""
     post= models.ForeignKey(Post, on_delete=models.CASCADE)
-    image_url = models.URLField(blank =False)
+    image_url = models.URLField(blank =True)
+    image_file = models.ImageField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
  
     def __str__(self):
         """Return a string representation of this photo"""
-        return f'image posted on {self.timestamp} by {self.post.profile.username}'
+        return f'image posted on {self.timestamp} by {self.post.profile.username}, image: {self.image_url if self.image_url else self.image_file}'
+    
+    def get_image_url(self):
+        """Return the image URL if exists, otherwise return the image file URL."""
+        if self.image_url:
+            return self.image_url
+        elif self.image_file:
+            return self.image_file.url
+        else:
+            return ""

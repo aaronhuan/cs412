@@ -7,17 +7,22 @@ Description: The create_post_form handles creating a form for the user to fill o
 
 {% block content %}
 <a href="{% url 'show_profile' profile.pk %}" class="btn">←Back</a>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="create-form">
         <div>
             <label>Caption</label>
             {{form.caption}}
         </div>
-
+        <!-- 
         <div>
             <label>Image URL</label>
-            <input type="url" name="image_url" > <!-- for image_url -->
+            <input type="url" name="image_url" > 
+        </div> 
+        -->
+
+        <div>
+            <input type ="file" name="imagefiles" multiple value="Select Photos">
         </div>
         
         <div>

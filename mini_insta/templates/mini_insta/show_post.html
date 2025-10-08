@@ -10,11 +10,33 @@ Description: The show_post handles making a detailed view of one post, its times
 <div class = "media-post">
     {% comment %} iterate through all the photos {% endcomment %}
     {% for photo in post.get_all_photos %} 
-        <img src = "{{ photo.image_url }}">
-    {% empty %} {% comment %} if the photo url is empty/not available use a image to show that{% endcomment %}
-        <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
+        {% if photo.get_image_url %}
+            <img src = "{{ photo.get_image_url }}">
+        {% endif %}
+
+        {% empty %} {% comment %} if the photo url is empty/not available use a image to show that{% endcomment %}
+            <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
     {% endfor %}
 </div>
+
+<!-- <div class="media-post">
+  <p>photos count: {{ post.get_all_photos|length }}</p>
+  {% for photo in post.get_all_photos %}
+    <div style="border:1px solid #ccc; padding:6px; margin:6px 0;">
+      <div>raw url: “{{ photo.get_image_url }}”</div>
+      {% if photo.get_image_url %}
+        <img src="{{ photo.get_image_url }}" style="max-width:400px;">
+      {% else %}
+        <div>no usable URL — showing fallback</div>
+        <img src="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
+      {% endif %}
+    </div>
+  {% empty %}
+    <div>no Photo rows for this post — showing fallback</div>
+    <img src="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
+  {% endfor %}
+</div> -->
+
 
 
 {% if post.caption %}
