@@ -1,0 +1,11 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <Label>Caption</Label>
+    {{ form.caption }}
+    <button type = "submit">Update Post</button>
+</form>
+
+{% endblock %}

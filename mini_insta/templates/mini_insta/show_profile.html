@@ -26,6 +26,7 @@ Description: The show_profile.html template displays a profile in mini_insta.
                 <td><a href="{% url 'show_profile' profile.pk%}"><img src = "{{ profile.profile_image_url }}" alt = "{{ display_name }}'s profile"></a></td>
         </tr>
 </table>
+<a href ="{% url 'update_profile' profile.pk %}" >Edit Profile</a>
 <h2>Posts</h2>
 <div class ="posts-grid">
         {% for post in profile.get_all_posts %} {% comment %} get all the posts from the profile and iterate through them{% endcomment %}

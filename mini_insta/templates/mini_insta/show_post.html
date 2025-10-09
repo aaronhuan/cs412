@@ -19,25 +19,6 @@ Description: The show_post handles making a detailed view of one post, its times
     {% endfor %}
 </div>
 
-<!-- <div class="media-post">
-  <p>photos count: {{ post.get_all_photos|length }}</p>
-  {% for photo in post.get_all_photos %}
-    <div style="border:1px solid #ccc; padding:6px; margin:6px 0;">
-      <div>raw url: “{{ photo.get_image_url }}”</div>
-      {% if photo.get_image_url %}
-        <img src="{{ photo.get_image_url }}" style="max-width:400px;">
-      {% else %}
-        <div>no usable URL — showing fallback</div>
-        <img src="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
-      {% endif %}
-    </div>
-  {% empty %}
-    <div>no Photo rows for this post — showing fallback</div>
-    <img src="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
-  {% endfor %}
-</div> -->
-
-
 
 {% if post.caption %}
 <p>{{post.caption}} </p>
@@ -45,5 +26,6 @@ Description: The show_post handles making a detailed view of one post, its times
 
 
 <time>{{post.timestamp}} </time>
-
+<a href = "{% url 'delete_post' post.pk %}"> Delete Post</a>
+<a href = "{% url 'update_post' post.pk %}"> Update Post</a>
 {% endblock %}
