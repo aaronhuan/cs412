@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'quotes',
     'restaurant',
     'blog',
-    'mini_insta'
+    'mini_insta',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

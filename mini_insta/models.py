@@ -12,7 +12,7 @@ class Profile(models.Model):
     display_name = models.TextField(blank=False)
     profile_image_url = models.URLField(blank=False)
     bio_text = models.TextField(blank=False)
-    join_date = models.DateTimeField(auto_now=True)
+    join_date = models.DateTimeField(auto_now_add =True)
 
     def __str__(self):
         """return a string representation of this profile instance."""
@@ -30,7 +30,7 @@ class Profile(models.Model):
 class Post(models.Model):
     """Represent a single post authored by a profile"""
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now_add =True)
     caption = models.TextField(blank= True) # optional so blank = true
     
     def __str__(self):
