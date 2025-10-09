@@ -1,8 +1,14 @@
+<!-- 
+File: mini_insta/update_profile_form.html
+Author: Aaron Huang (ahuan@bu.edu), 10/08/2025
+Description: The update_profile_form.html template allows users to update the display name, bio text, and profile image URL of their profile. 
+-->
+
 {% extends 'mini_insta/base.html'%}
 
 {% block content%}
 
-<form method="POST">
+<form method="POST">   <!-- Update profile fields (POST + CSRF) -->
 {% csrf_token %}
 <label>Display Name</label>
 {{ form.display_name}}
@@ -16,7 +22,7 @@
 <button type="submit">Update</button>
 </form>
 
-<form action="{% url 'show_profile' profile.pk %}" method="GET" style="margin-top: 0.75rem;">
+<form action="{% url 'show_profile' profile.pk %}" method="GET">   <!-- Cancel: go back to profile page -->
   <button type="submit">Cancel</button>
 </form>
 

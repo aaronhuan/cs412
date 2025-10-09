@@ -1,11 +1,20 @@
+<!-- 
+File: mini_insta/update_post_form.html
+Author: Aaron Huang (ahuan@bu.edu), 10/08/2025
+Description: The update_post_form.html template allows users to update the caption of an existing post. 
+-->
 {% extends 'mini_insta/base.html' %}
 
 {% block content %}
-<form method="POST">
+<form method="POST">  <!-- Update post caption (POST) -->
     {% csrf_token %}
     <Label>Caption</Label>
     {{ form.caption }}
     <button type = "submit">Update Post</button>
+</form>
+
+<form action="{% url 'show_post' post.pk %}" method= "GET">
+    <button type="submit">Cancel</button>
 </form>
 
 {% endblock %}

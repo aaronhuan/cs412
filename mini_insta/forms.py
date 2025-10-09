@@ -1,6 +1,6 @@
 # File: forms.py
 # Author: Aaron Huang (ahuan@bu.edu),09/30/2025
-# Description: Form for creating a post, inherits from ModelForm
+# Description: Forms for creating a post, updating a profile, and updating a post- inherits from ModelForm.
 
 from django import forms
 from .models import * 

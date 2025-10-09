@@ -1,6 +1,6 @@
 # File: views.py
 # Author: Aaron Huang (ahuan@bu.edu),09/24/2025
-# Description: Class based views for Mini Instagram pages, ingerits from django generic views. 
+# Description: Class based views for Mini Instagram pages, inherits from django generic views. 
 
 from django.shortcuts import render
 from .models import *
@@ -62,19 +62,21 @@ class CreatePostView(CreateView):
     
 
 class UpdateProfileView(UpdateView):
+    """Update a profile."""
     form_class= UpdateProfileForm
     model = Profile
     template_name= "mini_insta/update_profile_form.html"
 
 
 class UpdatePostView(UpdateView):
+    """Update a post."""
     form_class = UpdatePostForm
     model = Post 
     template_name = "mini_insta/update_post_form.html"
 
 
 class DeletePostView(DeleteView):
-    """Deletes a post."""
+    """Delete a post."""
     model = Post
     template_name = "mini_insta/delete_post_form.html"
     
