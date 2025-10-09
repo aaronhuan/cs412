@@ -7,26 +7,22 @@ Description: The show_profile.html template displays a profile in mini_insta.
 {% extends 'mini_insta/base.html' %}
 
 {% block content%}
+<div class ="profile-info">
+        <div class = "profile-username">
+                <p>{{profile.username}}</p>
+                <p>{{profile.join_date}}</p>
+        </div>
+        <div>
+                <div class="profile-header">
+                <a href="{% url 'show_profile' profile.pk%}"><img src = "{{ profile.profile_image_url }}" alt = "{{ display_name }}'s profile" class="profile-img"></a>
+                {{profile.display_name}}
+                </div>
+                <p id="bio-text">{{profile.bio_text}}</p>
+        </div>
+</div>
 
-<table>
-        <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Display Name</th>
-                    <th>Bio</th>
-                    <th>Join Date</th>
-                    <th>Profile Image</th>
-                </tr>
-        </thead>
-        <tr>
-                <td>{{profile.username}}</td>
-                <td>{{profile.display_name}}</td>
-                <td>{{profile.bio_text}}</td>
-                <td>{{profile.join_date}}</td>
-                <td><a href="{% url 'show_profile' profile.pk%}"><img src = "{{ profile.profile_image_url }}" alt = "{{ display_name }}'s profile"></a></td>
-        </tr>
-</table>
-<a href ="{% url 'update_profile' profile.pk %}" >Edit Profile</a>
+<a class= "btn" href="{% url 'create_post' profile.pk %}">Create New Post</a>
+<a class= "btn" href ="{% url 'update_profile' profile.pk %}" >Edit Profile</a>
 <h2>Posts</h2>
 <div class ="posts-grid">
         {% for post in profile.get_all_posts %} {% comment %} get all the posts from the profile and iterate through them{% endcomment %}

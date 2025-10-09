@@ -16,9 +16,6 @@ Description: The base.html template provides a common structure for all pages in
     <nav>
         <ul>
             <li><a href = "{% url 'show_all_profiles' %}"> All profiles</a></li>
-            {% if profile %}
-            <li><a href ="{% url 'create_post' profile.pk %}">Create Post</a></li>
-            {% endif%}
         </ul>
     </nav>
     <main>

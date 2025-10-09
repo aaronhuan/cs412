@@ -10,11 +10,11 @@ Description: The update_post_form.html template allows users to update the capti
     {% csrf_token %}
     <Label>Caption</Label>
     {{ form.caption }}
-    <button type = "submit">Update Post</button>
+    <button class ="btn" type = "submit">Update Post</button>
 </form>
 
 <form action="{% url 'show_post' post.pk %}" method= "GET">
-    <button type="submit">Cancel</button>
+    <button class="btn" type="submit">Cancel</button>
 </form>
 
 {% endblock %}

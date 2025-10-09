@@ -10,6 +10,7 @@ Description: The update_profile_form.html template allows users to update the di
 
 <form method="POST">   <!-- Update profile fields (POST + CSRF) -->
 {% csrf_token %}
+<div class="create-form">
 <label>Display Name</label>
 {{ form.display_name}}
 
@@ -18,12 +19,12 @@ Description: The update_profile_form.html template allows users to update the di
 
 <label>Profile Image URL</label>
 {{ form.profile_image_url}}
+</div>
 
-<button type="submit">Update</button>
-</form>
-
+<button class="btn" type="submit">Update</button>
 <form action="{% url 'show_profile' profile.pk %}" method="GET">   <!-- Cancel: go back to profile page -->
-  <button type="submit">Cancel</button>
+  <button class="btn" type="submit">Cancel</button>
+</form>
 </form>
 
 {% endblock %}

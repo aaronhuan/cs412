@@ -26,6 +26,6 @@ Description: The show_post handles making a detailed view of one post, its times
 
 
 <time>{{post.timestamp}} </time>
-<a href = "{% url 'delete_post' post.pk %}"> Delete Post</a>
-<a href = "{% url 'update_post' post.pk %}"> Update Post</a>
+<a class="btn" href = "{% url 'delete_post' post.pk %}"> Delete Post</a>
+<a class="btn" href = "{% url 'update_post' post.pk %}"> Update Post</a>
 {% endblock %}
