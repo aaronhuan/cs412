@@ -16,6 +16,9 @@ Description: The show_profile.html template displays a profile in mini_insta.
                 <div class="profile-header">
                 <a href="{% url 'show_profile' profile.pk%}"><img src = "{{ profile.profile_image_url }}" alt = "{{ display_name }}'s profile" class="profile-img"></a>
                 {{profile.display_name}}
+                {{profile.get_num_posts}} Posts
+                <a href = "{% url 'show_followers' profile.pk %}">{{profile.get_num_followers}} Followers</a>
+                <a href = "{% url 'show_following' profile.pk %}">{{profile.get_num_following}} Following</a>
                 </div>
                 <p id="bio-text">{{profile.bio_text}}</p>
         </div>

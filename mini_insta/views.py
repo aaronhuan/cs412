@@ -89,3 +89,17 @@ class DeletePostView(DeleteView):
     def get_success_url(self):
         """Return to the profile page after deleting a post."""
         return self.object.profile.get_absolute_url()
+    
+
+class ShowFollowersDetailView(DetailView):
+    """Display a list of followers for a given profile."""
+    model = Profile
+    template_name = "mini_insta/show_followers.html"
+    context_object_name = "profile"
+
+
+class ShowFollowingDetailView(DetailView):
+    """Display a list of profiles that a given profile is following."""
+    model = Profile
+    template_name = "mini_insta/show_following.html"
+    context_object_name = "profile"

@@ -18,6 +18,14 @@ Description: The show_post handles making a detailed view of one post, its times
             <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
     {% endfor %}
 </div>
+<p>Liked by {{post.get_likes}}</p>
+Comments:
+<div>
+    {% comment %} iterate through all the comments and show the display name of the profile with the text of the comment {% endcomment %}
+    {% for comment in post.get_all_comments %}
+        <p>@{{comment.profile.display_name}}: {{comment.text}}</p>
+    {% endfor %}
+</div>
 
 
 {% if post.caption %}
