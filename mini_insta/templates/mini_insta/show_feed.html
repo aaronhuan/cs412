@@ -1,0 +1,29 @@
+{% extends 'mini_insta/base.html'%}
+
+{% block content %}
+     <a href = "{% url 'show_profile' viewer.pk %}" class = "btn">←Back</a> 
+    <h1>Feed</h1>
+    {% for post in posts %}
+        <div class = "post">
+            <p>{{post.profile.display_name}}</p>
+            <img src = "{{post.profile.profile_image_url}}" class = "profile-image">
+            <p>{{post.timestamp}}</p>
+            <img src = "{{post.get_first_photo.get_image_url}}" class = "post-image">
+            <p>{{post.caption}}</p>
+            <p>Liked by {{post.get_likes}}</p>
+            <p>Comments:</p>
+            <ul>
+                {% for comment in post.get_comments %}
+                    <li>@{{comment.profile.display_name}}: {{comment.text}}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+
+        <div class ="Footer-Nav">
+            <a href = "{% url 'show_feed' viewer.pk%}" class = "btn">home</a>
+            <a href = "{% url 'create_post' viewer.pk %}" class = "btn">+</a>
+            <a href = "{% url 'show_profile' viewer.pk %}" class = "btn"><img src ="{{viewer.profile_image_url}}"></a>
+        </div>
+        
+{% endblock %}

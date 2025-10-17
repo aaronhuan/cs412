@@ -10,7 +10,7 @@ Description: The show_post handles making a detailed view of one post, its times
 <div class = "media-post">
     {% comment %} iterate through all the photos {% endcomment %}
     {% for photo in post.get_all_photos %} 
-        {% if photo.get_image_url %}
+        {% if photo.get_image_url%}
             <img src = "{{ photo.get_image_url }}">
         {% endif %}
 
@@ -19,6 +19,10 @@ Description: The show_post handles making a detailed view of one post, its times
     {% endfor %}
 </div>
 <p>Liked by {{post.get_likes}}</p>
+{% if post.caption %}
+<p>{{post.caption}} </p>
+{% endif%}
+
 Comments:
 <div>
     {% comment %} iterate through all the comments and show the display name of the profile with the text of the comment {% endcomment %}
@@ -27,10 +31,6 @@ Comments:
     {% endfor %}
 </div>
 
-
-{% if post.caption %}
-<p>{{post.caption}} </p>
-{% endif%}
 
 
 <time>{{post.timestamp}} </time>

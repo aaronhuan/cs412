@@ -50,7 +50,7 @@ class Profile(models.Model):
     def get_post_feed(self):
         """Return a list of Post isntances for this profile's feed, ordered with most recent on top."""
         following_profiles = self.get_following()
-        posts = Post.objects.filter(profile__in=following_profiles).order_by('timestamp')
+        posts = Post.objects.filter(profile__in=following_profiles).order_by('-timestamp')
         return posts
 
     def get_absolute_url(self):
