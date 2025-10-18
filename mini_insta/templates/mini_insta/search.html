@@ -1,0 +1,17 @@
+<!-- 
+File: mini_insta/search.html
+Author: Aaron Huang (ahuan@bu.edu), 10/16/2025
+Description: The search.html shows a form that asks for text input as a query.
+-->
+
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+
+<form method="GET">
+    {% csrf_token %}
+    <label>Search for text, tags, or people:</label>
+    <input type ="text" name ="query">
+    <button type = "submit" class = "btn">Submit</button>
+</form>
+{% endblock %}

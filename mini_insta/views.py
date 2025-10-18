@@ -6,6 +6,7 @@ from django.shortcuts import render
 from .models import *
 from .forms import CreatePostForm, UpdatePostForm, UpdateProfileForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import Q
 # Create your views here.
 
 class ProfileListView(ListView):
@@ -113,7 +114,7 @@ class PostFeedListView(ListView):
     def get_context_data(self, **kwargs):
         """Add the profile viewing the feed into the context for the template."""
         context = super().get_context_data(**kwargs)
-        context['viewer'] = Profile.objects.get(pk=self.kwargs['pk'])
+        context['profile'] = Profile.objects.get(pk=self.kwargs['pk'])
         return context 
     
     def get_queryset(self):
@@ -122,3 +123,32 @@ class PostFeedListView(ListView):
         posts = profile.get_post_feed()
         return posts
     
+class SearchView(ListView):
+    """Display a list of profiles and posts based on text input."""
+    template_name = "mini_insta/search_results.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        """ Change route based on if there is a query."""
+        self.query = request.GET.get("query") #test for name query 
+        if not self.query: #absent query
+            profile = Profile.objects.get(pk=self.kwargs["pk"])
+            return render(request, "mini_insta/search.html", {"profile" : profile})
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        """Return Posts that match the criteria of the current query."""
+        matching_posts = Post.objects.filter(caption__contains=self.query)
+        return matching_posts
+    
+    def get_context_data(self, **kwargs):
+        """ Add useful context variables (profile, query, posts, profiles) for the template. """
+        context = super().get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(pk=self.kwargs['pk'])
+        context["query"] = self.query
+        context["posts"] = self.get_queryset()
+        context["profiles"] = Profile.objects.filter( #to perform OR queries use Q object from django.db.models 
+            Q(display_name__contains=self.query) |  # | = logical or, & = logical and 
+            Q(username__contains=self.query) | 
+            Q(bio_text__contains=self.query)
+        )
+        return context

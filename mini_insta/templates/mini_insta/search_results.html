@@ -1,0 +1,65 @@
+<!-- 
+File: mini_insta/search_results.html
+Author: Aaron Huang (ahuan@bu.edu), 10/16/2025
+Description: The search_results.html shows the results, profiles or posts, that match the query.
+-->
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<h1>Search for {{query}}</h1>
+<h2>Profile matching for </h2>
+{% comment %} iterate through the profiles that match either the bio, username, or display name{% endcomment %}
+{% for mprofiles in profiles %}
+    <a href="{% url 'show_profile' mprofiles.pk%}">
+    <div class="profile-header-search">
+        <img src = "{{mprofiles.profile_image_url}}" class="profile-img">
+        <div class ="info-search">
+            <p> @{{mprofiles.display_name}}</p>
+            <p>{{mprofiles.bio_text}}</p>
+        </div>
+    </div>
+    </a>
+{% endfor %}
+
+<h2>Post matching for </h2>
+{% comment %} iterate through all the posts that have the query in its caption {% endcomment %}
+{% for mposts in posts%}
+    {% with mposts.profile as poster %}
+    <div class ="post-card">
+        <!-- profile picture and name -->
+        <div class= "card-header">
+            <img src="{{poster.profile_image_url}}" class="profile-img">
+            <div class = "post-info">
+                <p>{{poster.display_name}}</p>
+                <p>{{mposts.timestamp}}</p>
+            </div>
+        </div>
+
+        <!--image -->
+        <div>
+            <a href = "{% url 'show_post' mposts.pk%}">
+            {% if mposts.get_first_photo and mposts.get_first_photo.get_image_url %}
+            <img src="{{mposts.get_first_photo.get_image_url}}">
+            {% else %}
+            <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
+            {% endif %}
+            </a>
+        </div>
+
+        <!--likes caption-->
+        <div class ="post-meta">
+            <div class = "post-like">
+                {% if mposts.get_num_likes %}
+                <p><Strong>Liked by</Strong> {{mposts.get_num_likes}}</p>
+                {% endif %}
+            </div>
+            <div class ="post-caption">
+                <p><strong>@{{poster.display_name}}</strong> {{mposts.caption}}</p>
+            </div>
+        </div>
+
+
+    </div>
+    {% endwith %}
+{% endfor %}
+{% endblock %}
