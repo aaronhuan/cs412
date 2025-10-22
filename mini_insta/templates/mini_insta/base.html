@@ -15,7 +15,10 @@ Description: The base.html template provides a common structure for all pages in
 <body>
     {% if request.user.is_authenticated %}
     Logged in as: {{request.user}}
-    <a href = "{% url 'logout' %}"> Logout</a>
+    <form action="{% url 'logout' %}" method="POST">
+      {% csrf_token %}
+      <button type="submit">logout</button>
+    </form>
     {% else %}
     Not logged in. 
     <a href = "{% url 'login' %}"> Login</a>
@@ -33,7 +36,7 @@ Description: The base.html template provides a common structure for all pages in
         {% endblock %}
     </main>
     <footer>
-        {% if profile and request.user.is_authenticated and profile.user_id == user.id%}
+        {% if request.user.is_authenticated and profile.user_id == user.id%}
         <div class="footer-nav">
             <a href="{% url 'show_feed' %}" class="nav-link" aria-label="Home">
                 <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">

@@ -1,4 +1,4 @@
-{% extends 'mini_insta/base.html' }
+{% extends 'mini_insta/base.html' %}
 
 {% block content %}
 <h1>Login to Instagram</h1>
@@ -6,7 +6,7 @@
     {% csrf_token %}
     {{form}}
     <input type = "submit" value ="Login">
-    <input type = "hidden" name = "next" value = "{% url 'show_all_profile%}"
-    
+    <input type = "hidden" name = "next" value = "{% url 'show_feed' %}">
+
 </form>
 {% endblock %}

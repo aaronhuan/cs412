@@ -5,15 +5,15 @@
 from django.shortcuts import render
 from .models import *
 from .forms import CreatePostForm, UpdatePostForm, UpdateProfileForm
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin 
 
 # Create your views here.
 
 class MyLoginRequiredMixin(LoginRequiredMixin):
-    # def get_login_url(self):
-    #     return reverse()
+    def get_login_url(self):
+        return reverse('login')
 
     def get_logged_in_profile(self):
         if not self.request.user.is_authenticated:
@@ -21,8 +21,8 @@ class MyLoginRequiredMixin(LoginRequiredMixin):
         
         return Profile.objects.filter(user = self.request.user).first()
     
-    def get_query_set(self):
-        return Post.objects.filter(profile__user=self.request.user)
+    # def get_query_set(self):
+    #     return Post.objects.filter(profile__user=self.request.user)
 
 
 class ProfileListView(ListView):
@@ -170,3 +170,7 @@ class SearchView(MyLoginRequiredMixin, ListView):
             Q(bio_text__contains=self.query)
         )
         return context
+    
+
+class LoggedOutView(TemplateView):
+    template_name = 'mini_insta/logged_out.html'
