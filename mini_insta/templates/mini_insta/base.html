@@ -13,6 +13,14 @@ Description: The base.html template provides a common structure for all pages in
     <title>Mini Instagram</title>
 </head>
 <body>
+    {% if request.user.is_authenticated %}
+    Logged in as: {{request.user}}
+    <a href = "{% url 'logout' %}"> Logout</a>
+    {% else %}
+    Not logged in. 
+    <a href = "{% url 'login' %}"> Login</a>
+    {% endif %}
+
     <nav>
         <ul>
             <li><a href = "{% url 'show_all_profiles' %}"> All profiles</a></li>
@@ -25,15 +33,15 @@ Description: The base.html template provides a common structure for all pages in
         {% endblock %}
     </main>
     <footer>
-        {% if profile %}
+        {% if profile and request.user.is_authenticated and profile.user_id == user.id%}
         <div class="footer-nav">
-            <a href="{% url 'show_feed' profile.pk %}" class="nav-link" aria-label="Home">
+            <a href="{% url 'show_feed' %}" class="nav-link" aria-label="Home">
                 <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3 10.5 12 3l9 7.5v8.5a2 2 0 0 1-2 2h-4.5v-6h-5v6H5a2 2 0 0 1-2-2v-8.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
                 </svg>
             </a>
 
-            <a href="{% url 'search' profile.pk %}" class="nav-link" aria-label="Search">
+            <a href="{% url 'search' %}" class="nav-link" aria-label="Search">
               
               <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -41,14 +49,14 @@ Description: The base.html template provides a common structure for all pages in
               </svg>
             </a>
 
-            <a href="{% url 'create_post' profile.pk %}" class="nav-link" aria-label="Create">
+            <a href="{% url 'create_post' %}" class="nav-link" aria-label="Create">
               <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
                 <path d="M12 8v8M8 12h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </a>
 
-            <a href="{% url 'show_profile' profile.pk %}" class="nav-link" aria-label="Profile">
+            <a href="{% url 'show_profile' profile.pk%}" class="nav-link" aria-label="Profile">
               <img src="{{ profile.profile_image_url }}" alt="{{ profile.display_name }}" class="nav-avatar"/>
             </a>
         </div>

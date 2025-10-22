@@ -34,6 +34,8 @@ Comments:
 
 
 <time>{{post.timestamp}} </time>
+{% if request.user.is_authenticated and post.profile.user_id == user.id%}
 <a class="btn" href = "{% url 'delete_post' post.pk %}"> Delete Post</a>
 <a class="btn" href = "{% url 'update_post' post.pk %}"> Update Post</a>
+{% endif %}
 {% endblock %}

@@ -7,7 +7,23 @@ from .models import *
 from .forms import CreatePostForm, UpdatePostForm, UpdateProfileForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin 
+
 # Create your views here.
+
+class MyLoginRequiredMixin(LoginRequiredMixin):
+    # def get_login_url(self):
+    #     return reverse()
+
+    def get_logged_in_profile(self):
+        if not self.request.user.is_authenticated:
+            return None
+        
+        return Profile.objects.filter(user = self.request.user).first()
+    
+    def get_query_set(self):
+        return Post.objects.filter(profile__user=self.request.user)
+
 
 class ProfileListView(ListView):
     """Displays a list of all Profile instances."""
@@ -28,7 +44,7 @@ class PostDetailView(DetailView):
     template_name = "mini_insta/show_post.html"
     context_object_name="post"
 
-class CreatePostView(CreateView):
+class CreatePostView(MyLoginRequiredMixin, CreateView):
     """ Create a new post for a given profile and attaches one photo"""
     form_class = CreatePostForm
     template_name = "mini_insta/create_post_form.html"
@@ -36,14 +52,12 @@ class CreatePostView(CreateView):
     def get_context_data(self, **kwargs):
         """Add the profile into the context for the template """
         context = super().get_context_data(**kwargs)
-        profile_pk = self.kwargs['pk'] #pk of the profile corresponding to the URL pattern
-        profile = Profile.objects.get(pk=profile_pk) #add profile object 
-        context['profile'] = profile 
+        context["profile"] = self.get_logged_in_profile() # no longer read from pk
         return context
     
     def form_valid(self, form):
         """Validates image_url before saving and creates the Photo."""
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_logged_in_profile()
         form.instance.profile = profile
 
         response = super().form_valid(form)
@@ -62,21 +76,25 @@ class CreatePostView(CreateView):
         return response
     
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(MyLoginRequiredMixin, UpdateView):
     """Update a profile."""
     form_class= UpdateProfileForm
     model = Profile
     template_name= "mini_insta/update_profile_form.html"
+    
+    def get_object(self, queryset = None):
+        '''find the Profile object of the logged in user'''
+        return self.get_logged_in_profile()
 
 
-class UpdatePostView(UpdateView):
+class UpdatePostView(MyLoginRequiredMixin, UpdateView):
     """Update a post."""
     form_class = UpdatePostForm
     model = Post 
     template_name = "mini_insta/update_post_form.html"
 
 
-class DeletePostView(DeleteView):
+class DeletePostView(MyLoginRequiredMixin, DeleteView):
     """Delete a post."""
     model = Post
     template_name = "mini_insta/delete_post_form.html"
@@ -105,7 +123,7 @@ class ShowFollowingDetailView(DetailView):
     template_name = "mini_insta/show_following.html"
     context_object_name = "profile"
 
-class PostFeedListView(ListView):
+class PostFeedListView(MyLoginRequiredMixin, ListView):
     """Display a list of posts for a given profile's feed."""
     model = Post
     template_name = "mini_insta/show_feed.html"
@@ -114,16 +132,16 @@ class PostFeedListView(ListView):
     def get_context_data(self, **kwargs):
         """Add the profile viewing the feed into the context for the template."""
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(pk=self.kwargs['pk'])
+        context['profile'] = self.get_logged_in_profile()
         return context 
     
     def get_queryset(self):
         """Return the List of posts for this profile's feed."""
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_logged_in_profile()
         posts = profile.get_post_feed()
         return posts
     
-class SearchView(ListView):
+class SearchView(MyLoginRequiredMixin, ListView):
     """Display a list of profiles and posts based on text input."""
     template_name = "mini_insta/search_results.html"
     
@@ -131,7 +149,7 @@ class SearchView(ListView):
         """ Change route based on if there is a query."""
         self.query = request.GET.get("query") #test for name query 
         if not self.query: #absent query
-            profile = Profile.objects.get(pk=self.kwargs["pk"])
+            profile = self.get_logged_in_profile()
             return render(request, "mini_insta/search.html", {"profile" : profile})
         return super().dispatch(request, *args, **kwargs)
 
@@ -143,7 +161,7 @@ class SearchView(ListView):
     def get_context_data(self, **kwargs):
         """ Add useful context variables (profile, query, posts, profiles) for the template. """
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(pk=self.kwargs['pk'])
+        context['profile'] = self.get_logged_in_profile()
         context["query"] = self.query
         context["posts"] = self.get_queryset()
         context["profiles"] = Profile.objects.filter( #to perform OR queries use Q object from django.db.models 
