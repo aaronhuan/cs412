@@ -4,10 +4,12 @@
 
 from django.shortcuts import render
 from .models import *
-from .forms import CreatePostForm, UpdatePostForm, UpdateProfileForm
+from .forms import *
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login 
 
 # Create your views here.
 
@@ -174,3 +176,27 @@ class SearchView(MyLoginRequiredMixin, ListView):
 
 class LoggedOutView(TemplateView):
     template_name = 'mini_insta/logged_out.html'
+
+class CreateProfileView(CreateView):
+    model = Profile 
+    form_class=CreateProfileForm 
+    template_name="mini_insta/create_profile_form.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['create_user_form'] = UserCreationForm()
+        return context 
+    
+    def form_valid(self, form):
+
+        user = UserCreationForm(self.request.POST).save()
+
+        form.instance.user = user 
+
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        form.instance.user = user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return self.object.get_absolute_url()
+

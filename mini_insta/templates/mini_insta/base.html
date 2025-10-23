@@ -22,6 +22,7 @@ Description: The base.html template provides a common structure for all pages in
     {% else %}
     Not logged in. 
     <a href = "{% url 'login' %}"> Login</a>
+    <a href = "{% url 'create_profile' %}">Sign up</a>
     {% endif %}
 
     <nav>

@@ -27,3 +27,11 @@ class UpdatePostForm(forms.ModelForm):
         """Configure model and exposed fields."""
         model = Post
         fields = ['caption']
+
+
+class CreateProfileForm(forms.ModelForm):
+    ''''''
+    class Meta:
+        ''''''
+        model = Profile
+        fields = ['username', 'display_name', 'bio_text', 'profile_image_url']
