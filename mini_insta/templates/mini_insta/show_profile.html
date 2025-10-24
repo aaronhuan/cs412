@@ -22,11 +22,27 @@ Description: The show_profile.html template displays a profile in mini_insta.
                 </div>
                 <p id="bio-text">{{profile.bio_text}}</p>
         </div>
+        <div>
+        {% if request.user.is_authenticated and profile.user_id != user.id %}
+                {% if not is_following%}
+                <a class ="btn" href ="{% url 'follow' profile.pk %}">Follow</a>
+                {% else %}
+                <a class ="btn" href ="{% url 'delete_follow' profile.pk %}">Unfollow</a>
+                {% endif%}
+        {% endif %}
+        </div>
 </div>
+
+
+
 {% if request.user.is_authenticated and profile.user_id == user.id %}
 <a class= "btn" href="{% url 'create_post'  %}">Create New Post</a>
 <a class= "btn" href ="{% url 'update_profile' %}" >Edit Profile</a>
+
 {% endif %}
+
+
+
 
 <h2>Posts</h2>
 <div class ="posts-grid">

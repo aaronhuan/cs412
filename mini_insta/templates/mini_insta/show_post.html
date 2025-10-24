@@ -18,6 +18,14 @@ Description: The show_post handles making a detailed view of one post, its times
             <img src ="https://cdn2.vectorstock.com/i/1000x1000/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg">
     {% endfor %}
 </div>
+{% if request.user.is_authenticated and post.profile.user_id != request.user.id %}
+    {% if not is_liked %}
+    <a class="btn" href="{% url 'like' post.pk %}">Like</a>
+    {% else %}
+    <a class="btn" href="{% url 'delete_like' post.pk %}">Unlike</a>
+    {% endif %}
+{% endif %}
+
 <p>Liked by {{post.get_likes}}</p>
 {% if post.caption %}
 <p>{{post.caption}} </p>

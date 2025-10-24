@@ -13,21 +13,22 @@ Description: The base.html template provides a common structure for all pages in
     <title>Mini Instagram</title>
 </head>
 <body>
-    {% if request.user.is_authenticated %}
-    Logged in as: {{request.user}}
-    <form action="{% url 'logout' %}" method="POST">
-      {% csrf_token %}
-      <button type="submit">logout</button>
-    </form>
-    {% else %}
-    Not logged in. 
-    <a href = "{% url 'login' %}"> Login</a>
-    <a href = "{% url 'create_profile' %}">Sign up</a>
-    {% endif %}
 
     <nav>
         <ul>
-            <li><a href = "{% url 'show_all_profiles' %}"> All profiles</a></li>
+            {% if request.user.is_authenticated %}
+            Logged in as: {{request.user}}
+            <li>
+              <form action="{% url 'logout' %}" method="POST" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="btn">Logout</button>
+              </form>
+            </li>
+            {% else %}
+            <li><a href = "{% url 'login' %}" class="btn"> Login</a></li>
+            <li><a href = "{% url 'create_profile' %}" class="btn">Sign up</a></li>
+            {% endif %}
+            <li><a href = "{% url 'show_all_profiles' %}" class="btn"> All profiles</a></li>
         </ul>
     </nav>
     <main>

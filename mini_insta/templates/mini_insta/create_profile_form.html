@@ -1,12 +1,52 @@
+<!-- 
+File: mini_insta/create_profile_form.html
+Author: Aaron Huang (ahuan@bu.edu), 10/23/2025
+Description: The create_profile_form handles creating a django user and a instagram profile for the user and redirects them to their detailed profile view.
+-->
+
 {% extends 'mini_insta/base.html' %}
 
 {% block content %}
 <h1>Make a profile</h1>
 <form action ="{% url 'create_profile' %}"method ="POST">
     {% csrf_token %}
+    <h2>Make your Account </h2>
+    <div class="create-form">
+        <label>Username</label>
+        {{ create_user_form.username }}
+    </div>
+    
+    <div class="create-form">
+        <label>Password</label>
+        {{ create_user_form.password1 }}
+    </div>
+    
+    <div class="create-form">
+        <label>Confirm Password</label>
+        {{ create_user_form.password2 }}
+    </div>
 
-    {{form}}
-    {{create_user_form}}
+    <h2>Make your Instagram profile</h2>
+    <div class="create-form">
+        <label>Username</label>
+        {{ form.username }}
+    </div>
+
+    <div class="create-form">
+        <label>Display name</label>
+        {{ form.display_name }}
+    </div>
+
+    <div class="create-form">
+        <label>Bio</label>
+        {{ form.bio_text }}
+    </div>
+
+    <div class="create-form">
+        <label>Profile image url</label>
+        {{ form.profile_image_url }}
+    </div>
+
     <button type="submit">Submit</button>
 </form>
 
