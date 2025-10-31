@@ -1,0 +1,14 @@
+{% block content %}
+
+{%for voter in voters%}
+    <p>{{voter.last_name}}</p>
+    <p>{{voter.first_name}}</p>
+    <p>{{voter.street_number}} {{voter.street_name}}</p>
+    <p>{{voter.date_of_birth}}</p>
+    <p>{{voter.party_affiliation}}</p>
+    <p>{{voter.voter_score}}</p>
+
+{% endfor %}
+
+
+{% endblock %}

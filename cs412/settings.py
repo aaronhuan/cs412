@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog',
     'mini_insta',
     'django_cleanup.apps.CleanupConfig',
+    'voter_analytics'
 ]
 
 MIDDLEWARE = [
