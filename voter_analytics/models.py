@@ -1,3 +1,6 @@
+#File: voter_analysis/models.py
+#Author: Aaron Huang (ahuan@bu.edu), 10/28/2025
+#Description: models.py defines the database schema and loads data from local csv for Voter.
 from django.db import models
 from datetime import datetime
 # Create your models here.

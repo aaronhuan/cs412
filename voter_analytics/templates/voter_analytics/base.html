@@ -1,15 +1,23 @@
+<!-- 
+File: base.html
+Author: Aaron Huang (ahuan@bu.edu),10/29/2025
+Description: The base.html template is where other templates extends from.
+-->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="{% static 'voter_styles.css' %}">
     <title>Voter Analytics</title>
 </head>
 <body>
-    <nav>
-        <a href="">Home</a>
-        <a href="">Show Graphs</a>
+    <nav class="site-nav">
+        <a href="{% url 'voters' %}">Home</a>
+        <a href="{% url 'graphs' %}">Show Graphs</a>
     </nav>
+    <h1 class="site-title">Voter Analytics</h1>
     {% block content%}
 
     {% endblock %}

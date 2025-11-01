@@ -1,14 +1,63 @@
+<!-- 
+File: show_all_voters.html
+Author: Aaron Huang (ahuan@bu.edu),10/31/2025
+Description: The show_all_voters.html template extends the base.html template and displays all voter informations.
+-->
+
+{% extends 'voter_analytics/base.html' %}
+
 {% block content %}
+<div class ="page">
+    <form class="filter-form">
+        <table>
+            {{form.as_table}}
+        </table>
+        <td><button type = "submit"> Search </button></td>
+        <td><a class="btn-link" href = "{% url 'voters' %}">Reset</a></td>
+    </form>
+    {% if is_paginated %}
+        <ul>
+        {% if page_obj.has_previous %}
+            <li>
+                <span><a href = "?page={{ page_obj.previous_page_number }}{% if filter_qs %}&{{ filter_qs }}{% endif %}">Previous Page</a></span>
+            </li>
+        {% endif %}
 
-{%for voter in voters%}
-    <p>{{voter.last_name}}</p>
-    <p>{{voter.first_name}}</p>
-    <p>{{voter.street_number}} {{voter.street_name}}</p>
-    <p>{{voter.date_of_birth}}</p>
-    <p>{{voter.party_affiliation}}</p>
-    <p>{{voter.voter_score}}</p>
+            <li>
+                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
 
-{% endfor %}
+        {% if page_obj.has_next %} 
+            <li>
+                <span><a href = "?page={{ page_obj.next_page_number }}{% if filter_qs %}&{{ filter_qs }}{% endif %}">Next Page</a></span>
+            </li>
+        {% endif %}
+        </ul>
+    {% endif %}
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Date of Birth</th>
+            <th>Political Party</th>
+            <th>Voter Score</th>
+        </tr>
+        </thead>
+        <!-- iterate through voters and display their information -->
+        <tbody>
+    {%for voter in voters%}
+        <tr>
+            <td><a href="{% url 'voter_detail' voter.pk%}">{{voter.last_name}}, {{voter.first_name}}</a></td>
+            <td>{{voter.street_number}} {{voter.street_name}}</td>
+            <td>{{voter.date_of_birth}}</td>
+            <td>{{voter.party_affiliation}}</td>
+            <td>{{voter.voter_score}}</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

@@ -1,0 +1,32 @@
+<!-- 
+File: graphs.html
+Author: Aaron Huang (ahuan@bu.edu),10/31/2025
+Description: The graphs.html template extends the base.html template and displays a optional filter form and graphs.
+-->
+
+{% extends 'voter_analytics/base.html' %}
+{% block content %}
+<div class="page">
+
+    <h1>Voter Graphs</h1>
+
+    <form method="get" class="filter-form">
+      <table>
+        {{ form.as_table }}
+      </table>
+      <div class="filter-actions">
+        <button type="submit">Filter</button>
+        <a ckass = "btn-link" href="{% url 'graphs' %}">Reset</a>
+      </div>
+    </form>
+
+    <h2>Distribution by Year of Birth</h2>
+    {{ bar_birth|safe }}
+
+    <h2>Party Affiliation</h2>
+    {{ pie_party|safe }}
+
+    <h2>Participation by Election</h2>
+    {{ bar_elections|safe }}
+  </div>
+{% endblock %}

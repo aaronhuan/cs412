@@ -1,19 +1,39 @@
-{% block content%}
-<p>Name: </p>
-<p>Address: </p>
-<p>Date of Birth</p>
-<p>Date of Registration</p>
-<p>Party Affiliation</p>
+<!-- 
+File: show_voter.html
+Author: Aaron Huang (ahuan@bu.edu),10/31/2025
+Description: The show_voter.html template displays a voter's detailed page.
+-->
 
-<p> PAST voting</p>
-<p>v20state = </p>
-<p>v21town = </p>
-<p>v21primary = </p>
-<p>v22general = </p>
-<p>v23town = </p>
+{% extends 'voter_analytics/base.html' %}
+{% block content %}
+<div class="page">
 
+  <table class ="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Date of Birth</th>
+        <th>Political Party</th>
+        <th>Voter Score</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>{{voter.last_name}}, {{voter.first_name}}</td>
+          <!-- define temp variable to combine into 1 whole address -->
+          {% with q=voter.street_number|stringformat:'s'|add:' '|add:voter.street_name %} <!--convert it to a string and concatenate-->
+          <!--urlencode -> convert to a url-->
+          <td><a href="https://www.google.com/maps?q={{ q|urlencode }}"target="_blank">
+              {{voter.street_number}} {{voter.street_name}}</a></td>
+          {% endwith %}
+          <td>{{ voter.date_of_birth }}</td>
+          <td>{{ voter.party_affiliation }}</td>
+          <td>{{ voter.voter_score }}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
 
-
-
-<p>Voter Score </p>
-{% endblock%}
+{% endblock %}
