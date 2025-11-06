@@ -1,14 +1,19 @@
+// File: app/(tabs)/detail.tsx
+// created at: 11/06/2025, ahuan@bu.edu
+// Description: This file contains the detail screen of the app using react-native components.
+
 import { View, ScrollView, Text, Image } from "react-native";
 import { styles } from "../../assets/my_styles";
 export default function DetailScreen() {
     return (
+        // Detail screen content inside a ScrollView nested in a View, composed of an external images and text. 
         <View style={styles.screen}>
             <ScrollView contentContainerStyle={styles.content}>
-                <Text style={styles.titleText}>Details</Text>
+                <Text style={styles.titleText}>Details Screen</Text>
                 <Text style={styles.bodyText}>One interest of mine is playing video games</Text>
-                <Text style={styles.bodyText}>Stardew Valley</Text>
+                <Text style={styles.subtitleText}>Stardew Valley</Text>
                 <Image 
-                    source={{ uri: "https://wallpapers.com/images/hd/2d-stardew-valley-game-logo-poster-twhcnbrs001ypbap.jpg" }}
+                    source={{ uri: "https://cs-people.bu.edu/ahuan/images/sdv.jpg" }}
                     style ={styles.imageStyling}
                 />
                 <Text style={styles.bodyText}>Stardew Valley is a charming farming simulation game that invites players to
@@ -19,9 +24,9 @@ export default function DetailScreen() {
                     exploration makes it a cozy escape with endless possibilities.
                 </Text>
 
-                <Text style={styles.bodyText}>Marvel Rivals</Text>
+                <Text style={styles.subtitleText}>Marvel Rivals</Text>
                 <Image 
-                    source={{ uri: "https://insider-gaming.com/wp-content/uploads/2024/12/marvel-rivals-top-numbers.jpg" }}
+                    source={{ uri: "https://cs-people.bu.edu/ahuan/images/mr.jpg" }}
                     style ={styles.imageStyling}
                 />
                 <Text style={styles.bodyText}>Marvel Rivals is an action-packed mobile game that brings together a roster
@@ -32,9 +37,9 @@ export default function DetailScreen() {
                     With its vibrant graphics and engaging gameplay, Marvel Rivals offers fans an exciting way to experience 
                     the Marvel Universe on the go.</Text>
 
-                <Text style={styles.bodyText}>Minecraft</Text>
+                <Text style={styles.subtitleText}>Minecraft</Text>
                 <Image 
-                    source = {{uri: "https://tse2.mm.bing.net/th/id/OIP.2M4fgHS0qstJAwCRRsR-sAHaEK?rs=1&pid=ImgDetMain&o=7&rm=3"}} 
+                    source = {{uri: "https://cs-people.bu.edu/ahuan/images/minecraft.jpg"}} 
                     style ={styles.imageStyling}/>
                 <Text style={styles.bodyText}>Minecraft is a sandbox video game that allows players to explore, build, and survive in a blocky, procedurally generated 3D world.
                     Players can gather resources, craft tools and items, and construct elaborate structures or entire cities.

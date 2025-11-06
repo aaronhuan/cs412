@@ -1,7 +1,13 @@
+// File: app/(tabs)/index.tsx
+// created at: 11/06/2025, ahuan@bu.edu
+// Description: This file contains the index screen of the app using react-native components.
+
+
 import { View, Text, Image, ScrollView } from "react-native";
 import { styles } from "../../assets/my_styles";
 
 export default function IndexScreen() {
+    // About screen content inside a ScrollView nested in a View, composed of static image and text. 
   const teletubbyimg = require('../../assets/images/teletubby.jpg');
     return (
         <View style={styles.screen}>
