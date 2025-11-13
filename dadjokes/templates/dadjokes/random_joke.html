@@ -1,0 +1,7 @@
+{% extends 'dadjokes/base.html' %}
+
+{% block content %}
+    <h1>Random Dad Joke</h1>
+    <p>{{joke.text}}</p>
+    <img src= "{{picture_url}}" alt="Random Picture">
+{% endblock %}
