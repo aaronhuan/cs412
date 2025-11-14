@@ -1,7 +1,16 @@
+<!-- 
+File: dadjokes/random_joke.html
+Author: Aaron Huang (ahuan@bu.edu), 11/14/2025
+Description: This file provides a page to display a random joke.
+-->
+
 {% extends 'dadjokes/base.html' %}
 
 {% block content %}
     <h1>Random Dad Joke</h1>
+    <div class="card">
     <p>{{joke.text}}</p>
     <img src= "{{picture_url}}" alt="Random Picture">
+    <p>--{{joke.name}}</p>
+    </div>
 {% endblock %}

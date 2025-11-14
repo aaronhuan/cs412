@@ -1,6 +1,15 @@
+<!-- 
+File: dadjokes/show_joke.html
+Author: Aaron Huang (ahuan@bu.edu), 11/14/2025
+Description: This template shows a joke associated with the pk. 
+-->
+
 {% extends 'dadjokes/base.html' %}
 
 {% block content %}
+<div class="card">
     <h1>Dad Joke #{{joke.pk}}</h1>
     <p>{{joke.text}}</p>
+    <p>--{{joke.name}}</p>
+</div>
 {% endblock %}

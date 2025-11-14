@@ -1,6 +1,14 @@
+<!-- 
+File: dadjokes/show_image.html
+Author: Aaron Huang (ahuan@bu.edu), 11/14/2025
+Description: This page shows an image associated with the primary key on the link.
+-->
+
 {% extends 'dadjokes/base.html' %}
 
 {% block content %}
+<div class="card">
     <h1>Image #{{picture.pk}}</h1>
     <img src = "{{picture.get_image_url}}">
+</div>
 {% endblock %}
