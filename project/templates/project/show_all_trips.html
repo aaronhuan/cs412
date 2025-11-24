@@ -1,0 +1,10 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+{% for trip in trips %}
+    <p>{{trip.traveler.first_name}}</p>
+    <p>{{trip.location}}</p>
+{% endfor %}
+
+{% endblock %}

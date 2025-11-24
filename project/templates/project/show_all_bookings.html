@@ -1,0 +1,13 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+{% for booking in bookings%}
+    <p>{{booking.stop}}</p>
+    <p>{{booking.type}}</p>
+    <p>{{booking.confirmationcode}}</p>
+    <p>{{booking.price}}</p>
+    <p>{{booking.date}}</p>
+{% endfor %}
+
+{% endblock %}

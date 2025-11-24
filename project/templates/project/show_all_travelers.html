@@ -1,0 +1,9 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+{% for traveler in travelers %}
+    <p>{{traveler.first_name}} {{traveler.last_name}}</p>
+    <p>{{traveler.created_at}}</p>
+{% endfor %}
+{% endblock %}
