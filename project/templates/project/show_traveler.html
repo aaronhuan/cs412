@@ -1,6 +1,7 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
-    <p>{{traveler.first_name}} {{traveler.last_name}}</p>
+    <p>{{traveler.full_name}}</p>
     <p>{{traveler.created_at}}</p>
+    <a href="{% url 'triplist' %}" class="btn btn-primary">Trips</a>
 {% endblock %}

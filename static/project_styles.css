@@ -1,0 +1,43 @@
+html{
+  height:100%;
+}
+
+body
+{ height:100%;
+  background-color: #fcfcfc;
+
+}
+
+.centerwrapper{
+    border-radius: 3px;
+    width: 90%;
+    height: 90%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    margin: auto;
+    border: 6px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:3px;
+}
+
+
+.line {
+    height: 4px;
+    background-color: rgb(204, 202, 202);
+    margin: 12px 0;
+}
+
+.line1 { width: 300px; }
+.line2 { width: 240px; }
+.line3 { width: 180px; }
+
+/* 
+.buttonadditions{
+    border: 10px solid black;
+} */

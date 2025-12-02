@@ -1,0 +1,12 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<a href="{% url 'tripdetail' trip.pk %}">Back</a>
+
+<h2>Update Booking</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+</form>
+{% endblock %}

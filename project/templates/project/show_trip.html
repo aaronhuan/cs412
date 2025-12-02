@@ -2,7 +2,73 @@
 
 {% block content %}
 
-    <p>{{trip.traveler.first_name}}</p>
+{% if not trip.parent_trip %}
+<a href="{% url 'triplist' %}">Back to Trips</a>
+{% else %}
+<a href="{% url 'tripdetail' trip.parent_trip.pk %}">Back to {{trip.parent_trip.location}}</a>
+{% endif %}
     <p>{{trip.location}}</p>
+    <p>{{trip.start_date}} - {{trip.end_date}}</p>
+    <p>${{trip.budget}}</p>
 
+    <div>
+        <p>Trip Notes</p>
+        <p>{{trip.notes}}</p>
+    </div>
+    
+    {% if not trip.parent_trip %}
+    <div>
+        <p>Sub Trips</p>
+        <a href="{% url 'createsubtrip' trip.pk %}">+ Add Sub Trip</a>
+        {% for subtrip in subtrips %}
+        <a href="{% url 'tripdetail' subtrip.pk%}">
+             <div>
+                <p>{{subtrip.location}}</p>
+                <p>{{subtrip.start_date}} - {{subtrip.end_date}}</p>
+            </div>
+        </a>
+        <a href="{% url 'updatetrip' subtrip.pk%}">edit</a>
+        <a href="{% url 'deletetrip' subtrip.pk %}">delete</a>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
+    <div>
+        <p>Stops</p>
+        <p>Drag to reorder</p>
+        <a href="{% url 'createstop' trip.pk %}">+ Add Stop</a>
+        {% for stop in stops %}
+         <a href="{% url 'stopdetail' stop.pk%}">
+            <div>
+                <p>{{stop.stop}}</p>
+                <p>{{stop.orderIndex}}</p>
+                <p>{{stop.finished}}</p>
+            </div>
+         </a>
+         <a href="{% url 'updatestop' stop.pk %}">edit</a>
+         <a href="{% url 'deletestop' stop.pk %}">delete</a>
+        {% endfor %}
+    </div>
+
+    <div>
+        <p>Bookings</p>
+        <a href="{% url 'createbooking' trip.pk %}">+ Add Booking</a>
+        {% for booking in bookings %}
+        <a href="{% url 'bookingdetail' booking.pk%}">
+            <div>
+                <p>{{booking.type}}</p>
+                <p>{{booking.stop.stop}}</p>
+                <p>{{booking.date}}</p>
+                <div>
+                    <p>{{booking.confirmationcode}}</p>
+                </div>
+            </div>
+        </a>
+        <a href="{% url 'updatebooking' booking.pk %}">edit</a>
+        <a href="{% url 'deletebooking' booking.pk%}">delete</a>
+        {% endfor %}
+
+    </div>
+        
 {% endblock %}

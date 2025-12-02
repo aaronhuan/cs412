@@ -1,0 +1,22 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div class="centerwrapper" >
+    <p>Travel Itinerary</p>
+    <p>Plan your perfect journey</p>
+    <div class="line line1"></div>
+    <div class="line line2"></div>
+    <div class="line line3"></div>
+    {% if request.user.is_authenticated %}
+        <p>Logged in as: {{request.user}}</p>
+        <a href="{% url 'travelers' %}" class="btn btn-secondary btn-lg" role="button"><p>Continue</p></a>
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Logout" type="button" class="btn btn-secondary btn-lg">
+        </form>
+    {% else %}
+        <a href="{% url 'createtraveler' %}" class="btn btn-dark btn-lg" role="button"><p>Get Started</p></a>
+        <a href="{% url 'login' %}" class="btn btn-light btn-lg" role="button"><p>Log In</p></a>
+    {% endif %}
+</div>
+{% endblock %}

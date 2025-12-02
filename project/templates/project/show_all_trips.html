@@ -1,10 +1,28 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
+<div>
+    <p>{{traveler}}'s Trips</p>
+    <a href="{% url 'logout' %}">Logout</a>
+</div>
 
+<a href="{% url 'createtrip' %}"><p>+ Add New Trip</p></a>
 {% for trip in trips %}
-    <p>{{trip.traveler.first_name}}</p>
-    <p>{{trip.location}}</p>
+<a href="{% url 'tripdetail' trip.pk%}">
+    <div style="background-color: lightgoldenrodyellow;">
+        <div><p>{{trip.status}}</p></div>
+        <p>{{trip.location}}</p>
+        <ul>
+            <li><p>{{trip.start_date}} - {{trip.end_date}}</p> </li>
+            <li><p>{{trip.num_stops}} stops</p></li>
+        </ul>
+        
+        <a href="{% url 'updatetrip' trip.pk %}"><p>edit</p></a>
+        <a href="{% url 'deletetrip' trip.pk %}"><p>delete</p></a> 
+        <!-- add a confirmation about deletion later -->
+
+    </div>
+</a>
 {% endfor %}
 
 {% endblock %}

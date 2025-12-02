@@ -3,7 +3,6 @@
 {% block content %}
 
 {% for traveler in travelers %}
-    <p>{{traveler.first_name}} {{traveler.last_name}}</p>
-    <p>{{traveler.created_at}}</p>
+    <a href="{% url 'traveler' traveler.pk%}"><p>{{traveler.full_name}}</p></a>
 {% endfor %}
 {% endblock %}

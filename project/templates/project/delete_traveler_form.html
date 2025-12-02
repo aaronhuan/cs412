@@ -1,0 +1,11 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2>Delete Traveler</h2>
+<p>Are you sure you want to delete {{ object.full_name }}?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+</form>
+<a href="{% url 'traveler' object.pk %}">Cancel</a>
+{% endblock %}

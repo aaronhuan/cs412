@@ -1,9 +1,16 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
+
+{% if not parent_trip %}
+<a href="{% url 'triplist' %}">Back</a>
+{% else %}
+<a href="{% url 'tripdetail' parent_trip.pk %}">Back</a>
+{% endif %}
+<h2>Create Trip</h2>
 <form method="POST">
     {% csrf_token %}
-    {{form}}
+    {{ form.as_p }}
     <button type="submit">Submit</button>
 </form>
 {% endblock %}
