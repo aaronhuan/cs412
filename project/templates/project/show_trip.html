@@ -1,74 +1,195 @@
+<!-- 
+File: project/show_trip.html
+Author: Aaron Huang (ahuan@bu.edu), 12/07/2025
+Description: Trip detail view showing subtrips, stops, bookings, and related actions.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
+<div class="container py-3 page-section">
+    <div class="panel p-3 mb-4">
+        <div class="mb-3">
+            {% if not trip.parent_trip %}
+                <a href="{% url 'triplist' %}" class="text-secondary text-decoration-none d-inline-flex align-items-center gap-2 small">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+                    </svg>
+                    <span>Back to Trips</span>
+                </a>
+            {% else %}
+                <a href="{% url 'tripdetail' trip.parent_trip.pk %}" class="text-secondary text-decoration-none d-inline-flex align-items-center gap-2 small">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+                    </svg>
+                    <span>Back to {{trip.parent_trip.location}}</span>
+                </a>
+            {% endif %}
+        </div>
 
-{% if not trip.parent_trip %}
-<a href="{% url 'triplist' %}">Back to Trips</a>
-{% else %}
-<a href="{% url 'tripdetail' trip.parent_trip.pk %}">Back to {{trip.parent_trip.location}}</a>
-{% endif %}
-    <p>{{trip.location}}</p>
-    <p>{{trip.start_date}} - {{trip.end_date}}</p>
-    <p>${{trip.budget}}</p>
+        <div class="d-flex align-items-stretch justify-content-between gap-3 flex-wrap">
+            <div class="flex-grow-1">
+                <p class="fw-semibold fs-5 text-body mb-1">{{trip.location}}</p>
+                <div class="d-flex flex-wrap align-items-center text-secondary small gap-3">
+                    <span class="d-inline-flex align-items-center mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1.5A1.5 1.5 0 0 1 16 2.5v11A1.5 1.5 0 0 1 14.5 15h-13A1.5 1.5 0 0 1 0 13.5v-11A1.5 1.5 0 0 1 1.5 1H3V.5a.5.5 0 0 1 .5-.5zM1.5 2A.5.5 0 0 0 1 2.5V4h14V2.5a.5.5 0 0 0-.5-.5H13V3a.5.5 0 0 1-1 0v-.5H4V3a.5.5 0 0 1-1 0v-.5H1.5z"/>
+                            <path d="M2.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 2.5 8zM5.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 5.5 8zM8.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 8.5 8zM11.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM2.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM5.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM8.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        <span class="ms-2">
+                            {% if trip.start_date or trip.end_date %}
+                                {% if trip.start_date and trip.end_date %}
+                                    {{trip.start_date}} - {{trip.end_date}}
+                                {% elif trip.start_date %}
+                                    {{trip.start_date}} - No date set
+                                {% else %}
+                                    No date set - {{trip.end_date}}
+                                {% endif %}
+                            {% else %}
+                                No date set
+                            {% endif %}
+                        </span>
+                    </span>
+                    <span class="d-inline-flex align-items-center mb-1">
+                        {% if trip.budget is not None %}
+                            <span class="fw-semibold text-body">$</span>
+                            <span class="ms-1">{{trip.budget}}</span>
+                        {% else %}
+                            <span class="fw-semibold text-body">$</span>
+                            <span class="text-secondary">No budget set</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="d-flex align-items-stretch gap-2 flex-wrap">
+                <a class="btn btn-outline-secondary d-flex align-items-center justify-content-center px-3 h-100" href="{% url 'updatetrip' trip.pk %}">
+                    <span class="text-center">Edit<br>Trip</span>
+                </a>
+                <a class="btn btn-outline-secondary d-flex align-items-center justify-content-center px-3 h-100" href="{% url 'deletetrip' trip.pk %}">
+                    <span class="text-center">Delete<br>Trip</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <div>
-        <p>Trip Notes</p>
-        <p>{{trip.notes}}</p>
+    <div class="mb-4">
+        <div class="panel p-3">
+            <h6 class="fw-semibold mb-2 d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M2.5 0A1.5 1.5 0 0 0 1 1.5v13A1.5 1.5 0 0 0 2.5 16h11a1.5 1.5 0 0 0 1.5-1.5V4.414a1.5 1.5 0 0 0-.44-1.06L11.646.44A1.5 1.5 0 0 0 10.586 0zM10 1.707 13.293 5H11.5A1.5 1.5 0 0 1 10 3.5zM2.5 1h6v2.5A2.5 2.5 0 0 0 11 6h2.5v8.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M4 8.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5"/>
+                </svg>
+                <span>Trip Notes</span>
+            </h6>
+            <p class="text-secondary mb-0 break-word">{{trip.notes|default:"No notes yet."}}</p>
+        </div>
     </div>
     
     {% if not trip.parent_trip %}
-    <div>
-        <p>Sub Trips</p>
-        <a href="{% url 'createsubtrip' trip.pk %}">+ Add Sub Trip</a>
-        {% for subtrip in subtrips %}
-        <a href="{% url 'tripdetail' subtrip.pk%}">
-             <div>
-                <p>{{subtrip.location}}</p>
-                <p>{{subtrip.start_date}} - {{subtrip.end_date}}</p>
+    <div class="mb-4">
+        <div class="panel p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-semibold mb-0">Sub Trips</h6>
+                <a class="btn btn-dark" href="{% url 'createsubtrip' trip.pk %}">+ Add Sub Trip</a>
             </div>
-        </a>
-        <a href="{% url 'updatetrip' subtrip.pk%}">edit</a>
-        <a href="{% url 'deletetrip' subtrip.pk %}">delete</a>
-        {% endfor %}
+            {% if subtrips %}
+                <div class="d-flex flex-column gap-3">
+                    {# List each subtrip card with quick edit/delete actions #}
+                    {% for subtrip in subtrips %}
+                    <div class="panel clickable-card p-3" onclick="window.location.href='{% url 'tripdetail' subtrip.pk%}'">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <a class="text-decoration-none fw-semibold text-body" href="{% url 'tripdetail' subtrip.pk%}">{{subtrip.location}}</a>
+                                <div class="text-secondary small">{{subtrip.start_date}} - {{subtrip.end_date}}</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'updatetrip' subtrip.pk%}" onclick="event.stopPropagation();">Edit</a>
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'deletetrip' subtrip.pk %}" onclick="event.stopPropagation();">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-secondary mb-0">No sub trips yet.</p>
+            {% endif %}
+        </div>
     </div>
-
     {% endif %}
 
-    <div>
-        <p>Stops</p>
-        <p>Drag to reorder</p>
-        <a href="{% url 'createstop' trip.pk %}">+ Add Stop</a>
-        {% for stop in stops %}
-         <a href="{% url 'stopdetail' stop.pk%}">
-            <div>
-                <p>{{stop.stop}}</p>
-                <p>{{stop.orderIndex}}</p>
-                <p>{{stop.finished}}</p>
+    <div class="mb-4">
+        <div class="panel p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-semibold mb-0">Stops</h6>
+                <a class="btn btn-dark" href="{% url 'createstop' trip.pk %}">+ Add Stop</a>
             </div>
-         </a>
-         <a href="{% url 'updatestop' stop.pk %}">edit</a>
-         <a href="{% url 'deletestop' stop.pk %}">delete</a>
-        {% endfor %}
-    </div>
-
-    <div>
-        <p>Bookings</p>
-        <a href="{% url 'createbooking' trip.pk %}">+ Add Booking</a>
-        {% for booking in bookings %}
-        <a href="{% url 'bookingdetail' booking.pk%}">
-            <div>
-                <p>{{booking.type}}</p>
-                <p>{{booking.stop.stop}}</p>
-                <p>{{booking.date}}</p>
-                <div>
-                    <p>{{booking.confirmationcode}}</p>
+            {% if stops %}
+                <div class="d-flex flex-column gap-3">
+                    {# Show each itinerary stop with status and quick links #}
+                    {% for stop in stops %}
+                    <div class="panel clickable-card p-3" onclick="window.location.href='{% url 'stopdetail' stop.pk%}'">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <a class="text-decoration-none fw-semibold text-body" href="{% url 'stopdetail' stop.pk%}">{{stop.stop}}</a>
+                                <div class="text-secondary small">Order: {{stop.orderIndex}} | Finished: {{stop.finished}}</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'updatestop' stop.pk%}" onclick="event.stopPropagation();">Edit</a>
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'deletestop' stop.pk %}" onclick="event.stopPropagation();">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-            </div>
-        </a>
-        <a href="{% url 'updatebooking' booking.pk %}">edit</a>
-        <a href="{% url 'deletebooking' booking.pk%}">delete</a>
-        {% endfor %}
-
+            {% else %}
+                <p class="text-secondary mb-0">No stops yet.</p>
+            {% endif %}
+        </div>
     </div>
-        
+
+    <div class="mb-4">
+        <div class="panel p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-semibold mb-0">Bookings</h6>
+                <a class="btn btn-dark" href="{% url 'createbooking' trip.pk %}">+ Add Booking</a>
+            </div>
+            {% if bookings %}
+                <div class="d-flex flex-column gap-3">
+                    {# Render each booking row with edit/delete shortcuts #}
+                    {% for booking in bookings %}
+                    <div class="panel clickable-card d-block text-decoration-none text-body p-3" onclick="window.location.href='{% url 'bookingdetail' booking.pk %}'">
+                        <div class="d-flex justify-content-end gap-2 mb-3">
+                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'updatebooking' booking.pk%}" onclick="event.stopPropagation();">Edit</a>
+                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'deletebooking' booking.pk%}" onclick="event.stopPropagation();">Delete</a>
+                        </div>
+                        <div class="row g-3 text-secondary small fw-semibold mb-1">
+                            <div class="col-6 col-md-3">Type</div>
+                            <div class="col-6 col-md-3">Stop</div>
+                            <div class="col-6 col-md-3">Date</div>
+                            <div class="col-6 col-md-3">Price</div>
+                        </div>
+                        <div class="row g-3 mb-3 text-body fw-semibold">
+                            <div class="col-6 col-md-3">{{ booking.type|default:"-" }}</div>
+                            <div class="col-6 col-md-3">{{ booking.stop.stop|default:"-" }}</div>
+                            <div class="col-6 col-md-3">{{ booking.date|default:"No date set" }}</div>
+                            <div class="col-6 col-md-3">{% if booking.price %}${{ booking.price }}{% else %}No price set{% endif %}</div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="text-secondary small fw-semibold mb-1">Confirmation</div>
+                        <div class="text-body fw-semibold">
+                            {% if booking.confirmationcode %}
+                                {{ booking.confirmationcode }}
+                            {% else %}
+                                No code
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-secondary mb-0">No bookings yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

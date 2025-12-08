@@ -1,7 +1,14 @@
+<!-- 
+File: project/show_all_travelers.html
+Author: Aaron Huang (ahuan@bu.edu), 11/25/2025
+Description: List view that links to each traveler detail page.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
 
+{# Loop through all travelers and link to their detail pages #}
 {% for traveler in travelers %}
     <a href="{% url 'traveler' traveler.pk%}"><p>{{traveler.full_name}}</p></a>
 {% endfor %}

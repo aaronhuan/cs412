@@ -1,12 +1,44 @@
+<!-- 
+File: project/update_booking_form.html
+Author: Aaron Huang (ahuan@bu.edu), 12/07/2025
+Description: Form template for updating an existing booking.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
-<a href="{% url 'tripdetail' trip.pk %}">Back</a>
+<div class="container py-3 page-section">
+    <div class="panel p-3 mb-3">
+        <a class="btn btn-link text-decoration-none d-inline-flex align-items-center ps-0 mb-2" href="{% url 'tripdetail' trip.pk %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-1" aria-hidden="true">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+            </svg>
+            <span>Back</span>
+        </a>
 
-<h2>Update Booking</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+        <h4 class="mb-0">Update Booking</h4>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" novalidate class="trip-form">
+                {% csrf_token %}
+                {# Render each booking field with label and any validation errors #}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-dark">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

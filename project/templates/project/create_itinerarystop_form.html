@@ -1,13 +1,61 @@
+<!-- 
+File: project/create_itinerarystop_form.html
+Author: Aaron Huang (ahuan@bu.edu), 12/07/2025
+Description: Form template for adding a new itinerary stop to a trip.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
+<div class="container py-3 page-section">
+    <div class="panel p-3 mb-3">
+        <a class="btn btn-link text-decoration-none d-inline-flex align-items-center ps-0 mb-2" href="{% url 'tripdetail' trip.pk %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-1" aria-hidden="true">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+            </svg>
+            <span>Back</span>
+        </a>
 
-<a href="{% url 'tripdetail' trip.pk %}">Back</a>
+        <h4 class="mb-0">Add Stop</h4>
+    </div>
 
-<h2>Create Itinerary Stop</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" novalidate class="trip-form">
+                {% csrf_token %}
+                {# Render each stop field, treating the finished checkbox separately #}
+                {% for field in form %}
+                    {% if field.name == "finished" %}
+                    <div class="mb-3">
+                        <div class="form-check d-flex align-items-center gap-2">
+                            <input type="checkbox"
+                                   name="{{ field.html_name }}"
+                                   id="{{ field.id_for_label }}"
+                                   class="form-check-input check-square"
+                                   value="on"
+                                   {% if field.value %}checked{% endif %}>
+                            <label class="form-check-label mb-0" for="{{ field.id_for_label }}">Mark as finished</label>
+                        </div>
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-dark">Save Stop</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

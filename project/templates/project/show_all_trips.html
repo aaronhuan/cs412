@@ -1,28 +1,62 @@
+<!-- 
+File: project/show_all_trips.html
+Author: Aaron Huang (ahuan@bu.edu), 12/07/2025
+Description: Dashboard list of trips for the logged-in traveler with quick actions.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
-<div>
-    <p>{{traveler}}'s Trips</p>
-    <a href="{% url 'logout' %}">Logout</a>
-</div>
+<div class="container py-3 page-section">
+    <div class="panel p-3 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="h4 mb-0">My Trips</p>
+            <form method="post" action="{% url 'logout' %}" class="mb-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-secondary d-inline-flex align-items-center">
+                    <span class="icon-stack">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M3 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1h-1v1H3V3h6v1h1V3a1 1 0 0 0-1-1z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h10.793L9.146 4.354a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L12.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                        </svg>
+                    </span>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
 
-<a href="{% url 'createtrip' %}"><p>+ Add New Trip</p></a>
-{% for trip in trips %}
-<a href="{% url 'tripdetail' trip.pk%}">
-    <div style="background-color: lightgoldenrodyellow;">
-        <div><p>{{trip.status}}</p></div>
-        <p>{{trip.location}}</p>
-        <ul>
-            <li><p>{{trip.start_date}} - {{trip.end_date}}</p> </li>
-            <li><p>{{trip.num_stops}} stops</p></li>
-        </ul>
-        
-        <a href="{% url 'updatetrip' trip.pk %}"><p>edit</p></a>
-        <a href="{% url 'deletetrip' trip.pk %}"><p>delete</p></a> 
-        <!-- add a confirmation about deletion later -->
-
+        <div>
+            <a class="btn btn-dark" href="{% url 'createtrip' %}">+ Add New Trip</a>
+        </div>
     </div>
-</a>
-{% endfor %}
 
+    {% if trips %}
+        {# Loop through each trip for the logged-in traveler #}
+        {% for trip in trips %}
+        <div class="card mb-3 panel">
+            <div class="card-body position-relative overflow-hidden">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="status-pill mb-2">{{trip.status}}</div>
+                        <h5 class="card-title mb-2">{{trip.location}}</h5>
+                        <ul class="list-unstyled mb-2">
+                            <li>{{trip.start_date}} - {{trip.end_date}}</li>
+                            <li>{{trip.num_stops}} stops</li>
+                        </ul>
+                    </div>
+                    <div class="d-flex gap-2 position-relative card-action-guard">
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'updatetrip' trip.pk %}">Edit</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'deletetrip' trip.pk %}">Delete</a>
+                    </div>
+                </div>
+                <a class="stretched-link card-link-overlay" href="{% url 'tripdetail' trip.pk %}"></a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No trips yet. Click on + Add New Trip to create one!</p>
+    {% endif %}
+</div>
 {% endblock %}

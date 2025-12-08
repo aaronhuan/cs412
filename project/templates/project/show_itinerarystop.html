@@ -1,8 +1,63 @@
+<!-- 
+File: project/show_itinerarystop.html
+Author: Aaron Huang (ahuan@bu.edu), 12/07/2025
+Description: Detail view for a single itinerary stop with status and actions.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
-    <p>{{stop.orderIndex}}</p>
-    <p>{{stop.date}}</p>
-    <p>{{stop.stop}}</p>
-    <p>{{stop.finished}}</p>
+<div class="container py-3 page-section">
+    <div class="panel p-3 mb-3">
+        <a class="text-secondary text-decoration-none d-inline-flex align-items-center gap-2 small mb-2" href="{% url 'tripdetail' stop.trip.pk %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+            </svg>
+            <span>Back</span>
+        </a>
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="fw-semibold fs-4 text-body mb-0">{{ stop.stop }}</p>
+            <div class="d-flex gap-2">
+                <a class="btn btn-outline-secondary" href="{% url 'updatestop' stop.pk %}">Edit</a>
+                <a class="btn btn-outline-secondary" href="{% url 'deletestop' stop.pk %}">Delete</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel p-3">
+        <h6 class="fw-semibold mb-3">Details</h6>
+        <div class="row text-secondary small g-3">
+            <div class="col-md-6">
+                <div class="mb-1 d-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8 0a5 5 0 0 0-5 5c0 4.05 5 11 5 11s5-6.95 5-11a5 5 0 0 0-5-5m0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4"/>
+                    </svg>
+                    <span class="text-body">Stop Location</span>
+                </div>
+                <div class="ms-4 fw-semibold text-body">{{ stop.stop|default:"No location set" }}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-1 d-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1.5A1.5 1.5 0 0 1 16 2.5v11A1.5 1.5 0 0 1 14.5 15h-13A1.5 1.5 0 0 1 0 13.5v-11A1.5 1.5 0 0 1 1.5 1H3V.5a.5.5 0 0 1 .5-.5zM1.5 2A.5.5 0 0 0 1 2.5V4h14V2.5a.5.5 0 0 0-.5-.5H13V3a.5.5 0 0 1-1 0v-.5H4V3a.5.5 0 0 1-1 0v-.5H1.5z"/>
+                        <path d="M2.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 2.5 8zM5.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 5.5 8zM8.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 8.5 8zM11.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM2.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM5.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM8.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    <span class="text-body">Date</span>
+                </div>
+                <div class="ms-4 fw-semibold text-body">{{ stop.date|default:"No date set" }}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-1 text-body">Order</div>
+                <div class="ms-0 fw-semibold text-body">Stop #{{ stop.orderIndex|default:"-" }}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-1 text-body">Status</div>
+                <div class="ms-0 d-flex align-items-center gap-2 text-body fw-semibold">
+                    <input type="checkbox" class="form-check-input check-square" disabled {% if stop.finished %}checked{% endif %}>
+                    <span>{% if stop.finished %}Finished{% else %}Not finished{% endif %}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

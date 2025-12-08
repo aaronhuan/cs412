@@ -1,10 +1,54 @@
+<!-- 
+File: project/create_traveler_form.html
+Author: Aaron Huang (ahuan@bu.edu), 11/22/2025
+Description: Form template for signing up a new traveler account and profile.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
-<h2>Create Traveler</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+<div class="center-layout position-relative">
+    <a class="back-link d-inline-flex align-items-center" href="{% url 'homepage' %}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-1" aria-hidden="true">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+        </svg>
+        <span>Back</span>
+    </a>
+    <div class="centerwrapper signup-compact">
+        <p class="form-title">Create Account</p>
+        <p class="form-subtitle">Sign up to start planning</p>
+        <form action="{% url 'signup' %}" method="POST" class="stacked-form">
+            {% csrf_token %}
+
+            <div class="form-row">
+                <label for="{{ create_user_form.username.id_for_label }}">Username</label>
+                {{ create_user_form.username }}
+            </div>
+
+            <div class="form-row">
+                <label for="{{ create_user_form.password1.id_for_label }}">Password</label>
+                {{ create_user_form.password1 }}
+                {% if create_user_form.password1.help_text %}
+                <div class="text-secondary password-help mt-1">
+                    {{ create_user_form.password1.help_text|safe }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <label for="{{ create_user_form.password2.id_for_label }}">Confirm Password</label>
+                {{ create_user_form.password2 }}
+            </div>
+
+            <div class="form-row">
+                <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                {{ form.full_name }}
+            </div>
+            
+            <button type="submit" class="btn btn-dark w-100">Sign Up</button>
+        </form>
+        <p class="form-footer">Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+    </div>
+</div>
+
 {% endblock %}

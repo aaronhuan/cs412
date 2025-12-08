@@ -1,11 +1,24 @@
+<!-- 
+File: project/delete_trip_form.html
+Author: Aaron Huang (ahuan@bu.edu), 12/07/2025
+Description: Confirmation form for deleting a trip along with its stops and bookings.
+ -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
-<h2>Delete Trip</h2>
-<p>Are you sure you want to delete the trip to {{ object.location }}?</p>
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Confirm Delete</button>
-</form>
-<a href="{% url 'tripdetail' object.pk %}">Cancel</a>
+<div class="min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="container py-4 d-flex flex-column align-items-center text-center confirm-panel panel page-section">
+        <h2 class="mb-3">Delete Trip</h2>
+        <p class="mb-2">Are you sure you want to delete the trip to {{ object.location }}?</p>
+        <p class="text-danger fw-semibold mb-4">
+            This will also delete all stops and bookings associated with this trip. This action cannot be undone.
+        </p>
+        <form method="POST" class="d-flex flex-column align-items-center gap-2 w-100">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">Confirm Delete</button>
+            <a class="btn btn-outline-secondary w-100" href="{% url 'tripdetail' object.pk %}">Cancel</a>
+        </form>
+    </div>
+</div>
 {% endblock %}
