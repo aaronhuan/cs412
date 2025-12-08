@@ -167,6 +167,31 @@ class TripCreateView(MyLoginRequiredMixin, CreateView):
         context["parent_trip"] = self.parent_trip
         return context
 
+    def get_form_kwargs(self):
+        """Ensure the form instance carries the parent trip for validation."""
+        kwargs = super().get_form_kwargs()
+        instance = kwargs.get("instance") or Trip()
+        if self.parent_trip:
+            instance.parent_trip = self.parent_trip
+        kwargs["instance"] = instance
+        return kwargs
+
+    def get_form(self, form_class=None):
+        """Limit selectable dates to the parent trip window when creating a subtrip."""
+        form = super().get_form(form_class)
+        parent = self.parent_trip
+        if parent:
+            parent_start = parent.start_date.isoformat() if parent.start_date else None
+            parent_end = parent.end_date.isoformat() if parent.end_date else None
+            for field_name in ("start_date", "end_date"):
+                field = form.fields.get(field_name)
+                if field:
+                    if parent_start:
+                        field.widget.attrs["min"] = parent_start
+                    if parent_end:
+                        field.widget.attrs["max"] = parent_end
+        return form
+
     def form_valid(self, form):
         """Assign the logged in traveler and parent trip (if any) to the new trip before saving."""
         form.instance.traveler = self.get_logged_in_traveler()
@@ -186,6 +211,22 @@ class TripUpdateView(MyLoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["parent_trip"] = self.object.parent_trip
         return context
+
+    def get_form(self, form_class=None):
+        """Limit subtrip date edits to stay within the parent trip window."""
+        form = super().get_form(form_class)
+        parent = self.object.parent_trip
+        if parent:
+            parent_start = parent.start_date.isoformat() if parent.start_date else None
+            parent_end = parent.end_date.isoformat() if parent.end_date else None
+            for field_name in ("start_date", "end_date"):
+                field = form.fields.get(field_name)
+                if field:
+                    if parent_start:
+                        field.widget.attrs["min"] = parent_start
+                    if parent_end:
+                        field.widget.attrs["max"] = parent_end
+        return form
 
     def form_valid(self, form):
         """Fill in the traveler as the logged in traveler before saving."""
@@ -226,6 +267,24 @@ class ItineraryStopCreateView(MyLoginRequiredMixin, CreateView):
         self.trip = Trip.objects.get(pk=trip_pk)
         return super().dispatch(request, *args, **kwargs)
 
+    def get_form_kwargs(self):
+        """Attach the parent trip to the form instance so validation can use it."""
+        kwargs = super().get_form_kwargs()
+        kwargs["instance"] = ItineraryStop(trip=self.trip)
+        return kwargs
+
+    def get_form(self, form_class=None):
+        """Limit stop date picker to the parent trip range."""
+        form = super().get_form(form_class)
+        form.instance.trip = self.trip
+        date_field = form.fields.get("date")
+        if date_field:
+            if self.trip.start_date:
+                date_field.widget.attrs["min"] = self.trip.start_date.isoformat()
+            if self.trip.end_date:
+                date_field.widget.attrs["max"] = self.trip.end_date.isoformat()
+        return form
+
     def form_valid(self, form):
         """Assign the trip to the new itinerary stop before saving."""
         form.instance.trip = self.trip
@@ -253,6 +312,18 @@ class ItineraryStopUpdateView(MyLoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["trip"] = self.object.trip
         return context
+
+    def get_form(self, form_class=None):
+        """Limit stop date edits to the parent trip window."""
+        form = super().get_form(form_class)
+        date_field = form.fields.get("date")
+        trip = self.object.trip
+        if date_field:
+            if trip.start_date:
+                date_field.widget.attrs["min"] = trip.start_date.isoformat()
+            if trip.end_date:
+                date_field.widget.attrs["max"] = trip.end_date.isoformat()
+        return form
 
     def get_success_url(self):
         """Upon successful update, redirect to the trip detail page."""

@@ -5,6 +5,7 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -50,6 +51,39 @@ class Trip (models.Model):
         """Absolute URL for the Trip detail view."""
         return reverse('tripdetail', kwargs={'pk': self.pk})
 
+    def clean(self): # model level validation
+        """Validate trip dates, ensuring subtrips stay within their parent trip window."""
+        super().clean()
+
+        def add_error(field_name, message):
+            errors.setdefault(field_name, []).append(message) # helper to accumulate errors to existing list (currently empty)
+
+        errors = {} # errors act as a dict of lists to accumulate multiple errors per field
+
+        # start cannot come after end on the same trip.
+        if self.start_date and self.end_date and self.start_date > self.end_date:
+            add_error("end_date", "End date must be on or after the start date.")
+
+        # If this is a subtrip, keep its range inside the parent trip's range when provided.
+        if self.parent_trip:
+            parent_start = self.parent_trip.start_date
+            parent_end = self.parent_trip.end_date
+
+            if parent_start:
+                if self.start_date and self.start_date < parent_start:
+                    add_error("start_date", "Sub-trip start date cannot be before the parent trip start date.")
+                if self.end_date and self.end_date < parent_start:
+                    add_error("end_date", "Sub-trip end date cannot be before the parent trip start date.")
+
+            if parent_end:
+                if self.start_date and self.start_date > parent_end:
+                    add_error("start_date", "Sub-trip start date cannot be after the parent trip end date.")
+                if self.end_date and self.end_date > parent_end:
+                    add_error("end_date", "Sub-trip end date cannot be after the parent trip end date.")
+
+        if errors:
+            raise ValidationError(errors) # raise accumulated errors if any, form will carry them forward to templates
+
 class ItineraryStop (models.Model):
     """Model representing a stop or activity within a trip itinerary."""
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
@@ -71,6 +105,21 @@ class ItineraryStop (models.Model):
             else:
                 self.orderIndex = 1
         super().save(*args, **kwargs)
+
+    def clean(self):
+        """Validate that stop dates fall inside the parent trip window."""
+        super().clean()
+        errors = {}
+
+        # When a stop has a date, constrain it to the trip's start/end if set.
+        if self.trip and self.date:
+            if self.trip.start_date and self.date < self.trip.start_date:
+                errors.setdefault("date", []).append("Stop date cannot be before the trip start date.")
+            if self.trip.end_date and self.date > self.trip.end_date:
+                errors.setdefault("date", []).append("Stop date cannot be after the trip end date.")
+
+        if errors:
+            raise ValidationError(errors)
 
 class Booking (models.Model):
     """Model representing a booking associated with an itinerary stop."""
