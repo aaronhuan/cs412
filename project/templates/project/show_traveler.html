@@ -34,7 +34,10 @@ Description: Detail view for a traveler profile with navigation to trips.
             </div>
             <div>
                 <p class="mb-1 text-secondary small">Joined</p>
-                <p class="mb-0 fw-semibold text-body">{{ traveler.created_at|date:"F j, Y" }}</p>
+                <p class="mb-0 fw-semibold text-body">
+                    {% comment %}formats as Month day, Year (e.g., April 5, 2024){% endcomment %}
+                    {{ traveler.created_at|date:"F j, Y" }}
+                </p>
             </div>
         </div>
     </div>

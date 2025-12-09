@@ -7,6 +7,8 @@ from django.conf import settings
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 
+# ModelForms inherit required/optional from model fields: blank=False (default) -> required input, blank=True -> optional.
+
 # Create your models here.
 
 class Traveler (models.Model):

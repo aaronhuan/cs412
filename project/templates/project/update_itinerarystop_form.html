@@ -21,6 +21,7 @@ Description: Form template for editing an existing itinerary stop.
 
     <div class="card">
         <div class="card-body">
+            <!-- Disable browser validation so Django/server errors control messages -->
             <form method="POST" novalidate class="trip-form">
                 {% csrf_token %}
                 {# Render each stop field, handling the finished checkbox separately #}
@@ -37,7 +38,7 @@ Description: Form template for editing an existing itinerary stop.
                             <label class="form-check-label mb-0" for="{{ field.id_for_label }}">Mark as finished</label>
                         </div>
                         {% if field.errors %}
-                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            <div class="text-danger small mt-1">{{ field.errors }}</div>
                         {% endif %}
                     </div>
                     {% else %}
@@ -48,7 +49,7 @@ Description: Form template for editing an existing itinerary stop.
                         </label>
                         {{ field }}
                         {% if field.errors %}
-                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            <div class="text-danger small mt-1">{{ field.errors }}</div>
                         {% endif %}
                     </div>
                     {% endif %}

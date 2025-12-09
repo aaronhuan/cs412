@@ -31,6 +31,7 @@ Description: Form template for updating trip details or subtrip details.
 
     <div class="card">
         <div class="card-body">
+            <!-- Disable browser validation so Django/server errors control messages -->
             <form method="POST" novalidate class="trip-form">
                 {% csrf_token %}
 
@@ -41,7 +42,7 @@ Description: Form template for updating trip details or subtrip details.
                     </label>
                     {{ form.status }}
                     {% if form.status.errors %}
-                        <div class="text-danger small mt-1">{{ form.status.errors|striptags }}</div>
+                        <div class="text-danger small mt-1">{{ form.status.errors }}</div>
                     {% endif %}
                 </div>
 
@@ -52,7 +53,7 @@ Description: Form template for updating trip details or subtrip details.
                     </label>
                     {{ form.location }}
                     {% if form.location.errors %}
-                        <div class="text-danger small mt-1">{{ form.location.errors|striptags }}</div>
+                        <div class="text-danger small mt-1">{{ form.location.errors }}</div>
                     {% endif %}
                 </div>
 
@@ -64,7 +65,7 @@ Description: Form template for updating trip details or subtrip details.
                         </label>
                         {{ form.start_date }}
                         {% if form.start_date.errors %}
-                            <div class="text-danger small mt-1">{{ form.start_date.errors|striptags }}</div>
+                            <div class="text-danger small mt-1">{{ form.start_date.errors }}</div>
                         {% endif %}
                     </div>
                     <div class="col-md-6">
@@ -74,7 +75,7 @@ Description: Form template for updating trip details or subtrip details.
                         </label>
                         {{ form.end_date }}
                         {% if form.end_date.errors %}
-                            <div class="text-danger small mt-1">{{ form.end_date.errors|striptags }}</div>
+                            <div class="text-danger small mt-1">{{ form.end_date.errors }}</div>
                         {% endif %}
                     </div>
                 </div>
@@ -86,7 +87,7 @@ Description: Form template for updating trip details or subtrip details.
                     </label>
                     {{ form.budget }}
                     {% if form.budget.errors %}
-                        <div class="text-danger small mt-1">{{ form.budget.errors|striptags }}</div>
+                        <div class="text-danger small mt-1">{{ form.budget.errors }}</div>
                     {% endif %}
                 </div>
 
@@ -97,7 +98,7 @@ Description: Form template for updating trip details or subtrip details.
                     </label>
                     {{ form.notes }}
                     {% if form.notes.errors %}
-                        <div class="text-danger small mt-1">{{ form.notes.errors|striptags }}</div>
+                        <div class="text-danger small mt-1">{{ form.notes.errors }}</div>
                     {% endif %}
                 </div>
 

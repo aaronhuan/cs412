@@ -12,7 +12,8 @@ Description: Form template for editing an existing traveler profile.
         <a class="back-link" href="{% url 'traveler' object.pk %}">← Back to profile</a>
         <p class="form-title">Update Account</p>
         <p class="form-subtitle">Edit your profile, username, or password.</p>
-        <form method="POST" class="stacked-form" novalidate>
+        <!-- Disable browser validation so Django/server errors control messages -->
+        <form method="POST" novalidate class="stacked-form">
             {% csrf_token %}
 
             {% comment %}Non-field errors = form-level validation issues (not tied to a specific field), so show all three forms together{% endcomment %}
