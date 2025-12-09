@@ -6,14 +6,9 @@ Description: Login form for travelers to sign in and continue to their trips.
 
 {% extends 'project/base.html' %}
 {% block content %}
-<div class="center-layout position-relative">
-    <a class="back-link d-inline-flex align-items-center" href="{% url 'homepage' %}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-1" aria-hidden="true">
-            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
-        </svg>
-        <span>Back</span>
-    </a>
+<div class="center-layout">
     <div class="centerwrapper">
+        <a class="back-link" href="{% url 'homepage' %}">← Back</a>
         <p class="form-title">Welcome Back</p>
         <p class="form-subtitle">Log in to your account</p>
         <form action="{% url 'login' %}" method="post" class="stacked-form">

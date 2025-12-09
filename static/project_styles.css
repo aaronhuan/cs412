@@ -106,21 +106,20 @@ body {
 }
 
 .centerwrapper {
-    width: 95%;
-    max-width: 1280px;
-    min-height: 78vh;
+    width: 100%;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 56px 64px;
-    border-radius: 12px;
-    border: 5px solid #111827;
+    padding: 32px 36px;
+    border-radius: 10px;
+    border: 1px solid var(--panel-border);
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     text-align: center;
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
 }
 
 .line {
@@ -135,22 +134,23 @@ body {
 
 .form-title {
     margin: 0;
-    font-size: 2.4rem;
+    font-size: 2rem;
     font-weight: 700;
 }
 
 .form-subtitle {
-    margin: 0 0 14px;
+    margin: 0 0 10px;
     color: var(--text-muted);
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 .stacked-form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     width: 100%;
     max-width: 420px;
+    text-align: left;
 }
 
 .form-row {
@@ -168,7 +168,7 @@ body {
 
 .stacked-form input {
     width: 100%;
-    padding: 14px 15px;
+    padding: 12px 14px;
     border: 1px solid var(--panel-border);
     border-radius: 10px;
     font-size: 1.05rem;
@@ -197,27 +197,19 @@ body {
 .form-footer a:hover { text-decoration: underline; }
 
 .back-link {
-    position: absolute;
-    top: 16px;
-    left: 16px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 12px;
+    padding: 6px 0;
     font-size: 0.95rem;
-    color: var(--text-muted);
-    background-color: #f1f2f4;
-    border: 1px solid #d4d7dd;
-    border-radius: 10px;
+    color: var(--accent);
     text-decoration: none;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    font-weight: 600;
 }
 
 .back-link:hover {
-    color: var(--accent);
-    background-color: #e4e6eb;
-    border-color: #c7ccd3;
-    text-decoration: none;
+    color: var(--text-main);
+    text-decoration: underline;
 }
 
 .centerwrapper .btn {
@@ -263,34 +255,34 @@ body {
 }
 
 .signup-compact {
-    font-size: 0.95rem;
+    font-size: 1rem;
 }
 
 .signup-compact .form-title {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
 }
 
 .signup-compact .form-subtitle {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
 }
 
 .signup-compact .stacked-form .form-row label {
-    font-size: 1.1rem;
-    margin-bottom: 0.15rem;
+    font-size: 1rem;
+    margin-bottom: 0.1rem;
 }
 
 .signup-compact .stacked-form input {
-    font-size: 1rem;
-    padding: 12px 14px;
-    height: 48px;
+    font-size: 0.98rem;
+    padding: 12px;
+    height: 46px;
     line-height: 1.25;
 }
 
 .signup-compact .btn {
-    font-size: 1.05rem;
+    font-size: 1rem;
 }
 
 .signup-compact .password-help {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
 }

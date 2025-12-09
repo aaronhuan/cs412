@@ -10,6 +10,7 @@ Description: Trip detail view showing subtrips, stops, bookings, and related act
 <div class="container py-3 page-section">
     <div class="panel p-3 mb-4">
         <div class="mb-3">
+            {% comment %}Pick correct back link: list for top-level trip, parent detail for subtrip{% endcomment %}
             {% if not trip.parent_trip %}
                 <a href="{% url 'triplist' %}" class="text-secondary text-decoration-none d-inline-flex align-items-center gap-2 small">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
@@ -37,6 +38,7 @@ Description: Trip detail view showing subtrips, stops, bookings, and related act
                             <path d="M2.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 2.5 8zM5.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 5.5 8zM8.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 8.5 8zM11.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM2.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM5.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM8.5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
                         </svg>
                         <span class="ms-2">
+                            {% comment %}Date display covers all cases (both, one, or none set){% endcomment %}
                             {% if trip.start_date or trip.end_date %}
                                 {% if trip.start_date and trip.end_date %}
                                     {{trip.start_date}} - {{trip.end_date}}
@@ -62,6 +64,14 @@ Description: Trip detail view showing subtrips, stops, bookings, and related act
                 </div>
             </div>
             <div class="d-flex align-items-stretch gap-2 flex-wrap">
+                {% comment %}Grab first traveler linked to user to provide a quick profile link{% endcomment %}
+                {% with request.user.traveler_set.all|first as profile_traveler %}
+                {% if profile_traveler %}
+                    <a class="btn btn-outline-dark d-flex align-items-center justify-content-center px-3 h-100" href="{% url 'traveler' profile_traveler.pk %}">
+                        <span class="text-center">Profile<br>Info</span>
+                    </a>
+                {% endif %}
+                {% endwith %}
                 <a class="btn btn-outline-secondary d-flex align-items-center justify-content-center px-3 h-100" href="{% url 'updatetrip' trip.pk %}">
                     <span class="text-center">Edit<br>Trip</span>
                 </a>

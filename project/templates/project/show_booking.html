@@ -18,6 +18,11 @@ Description: Booking detail page with trip navigation and edit/delete actions.
         <div class="d-flex justify-content-between align-items-center">
             <p class="fw-semibold fs-4 text-body mb-0">{{ booking.type }}</p>
             <div class="d-flex gap-2">
+                {% with request.user.traveler_set.all|first as profile_traveler %}
+                {% if profile_traveler %}
+                    <a class="btn btn-outline-dark" href="{% url 'traveler' profile_traveler.pk %}">Profile Info</a>
+                {% endif %}
+                {% endwith %}
                 <a class="btn btn-outline-secondary" href="{% url 'updatebooking' booking.pk %}">Edit</a>
                 <a class="btn btn-outline-secondary" href="{% url 'deletebooking' booking.pk %}">Delete</a>
             </div>

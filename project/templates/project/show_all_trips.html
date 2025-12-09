@@ -11,20 +11,27 @@ Description: Dashboard list of trips for the logged-in traveler with quick actio
     <div class="panel p-3 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <p class="h4 mb-0">My Trips</p>
-            <form method="post" action="{% url 'logout' %}" class="mb-0">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-secondary d-inline-flex align-items-center">
-                    <span class="icon-stack">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                            <path d="M3 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1h-1v1H3V3h6v1h1V3a1 1 0 0 0-1-1z"/>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h10.793L9.146 4.354a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L12.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                        </svg>
-                    </span>
-                    <span>Logout</span>
-                </button>
-            </form>
+            <div class="d-flex align-items-center gap-2">
+                {% with request.user.traveler_set.all|first as profile_traveler %}
+                {% if profile_traveler %}
+                    <a class="btn btn-outline-dark" href="{% url 'traveler' profile_traveler.pk %}">Profile Info</a>
+                {% endif %}
+                {% endwith %}
+                <form method="post" action="{% url 'logout' %}" class="mb-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary d-inline-flex align-items-center">
+                        <span class="icon-stack">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M3 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1h-1v1H3V3h6v1h1V3a1 1 0 0 0-1-1z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h10.793L9.146 4.354a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L12.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                            </svg>
+                        </span>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
         </div>
 
         <div>

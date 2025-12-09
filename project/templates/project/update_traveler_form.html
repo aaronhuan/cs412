@@ -7,10 +7,73 @@ Description: Form template for editing an existing traveler profile.
 {% extends 'project/base.html' %}
 
 {% block content %}
-<h2>Update Traveler</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+<div class="center-layout">
+    <div class="centerwrapper signup-compact">
+        <a class="back-link" href="{% url 'traveler' object.pk %}">← Back to profile</a>
+        <p class="form-title">Update Account</p>
+        <p class="form-subtitle">Edit your profile, username, or password.</p>
+        <form method="POST" class="stacked-form" novalidate>
+            {% csrf_token %}
+
+            {% comment %}Non-field errors = form-level validation issues (not tied to a specific field), so show all three forms together{% endcomment %}
+            {% if form.non_field_errors or user_form.non_field_errors or password_form.non_field_errors %}
+                <div class="alert alert-danger mb-2">
+                    {{ form.non_field_errors }}
+                    {{ user_form.non_field_errors }}
+                    {{ password_form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-row">
+                <label for="{{ user_form.username.id_for_label }}">Username</label>
+                {{ user_form.username }}
+                {% if user_form.username.errors %}
+                    <div class="text-danger small">{{ user_form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                {{ form.full_name }}
+                {% if form.full_name.errors %}
+                    <div class="text-danger small">{{ form.full_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <p class="form-subtitle mb-1 mt-2">Change password (optional)</p>
+            <p class="text-secondary small mb-2">Leave these blank to keep your current password.</p>
+
+            <div class="form-row">
+                <label for="{{ password_form.old_password.id_for_label }}">Current Password</label>
+                {{ password_form.old_password }}
+                {% if password_form.old_password.errors %}
+                    <div class="text-danger small">{{ password_form.old_password.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <label for="{{ password_form.new_password1.id_for_label }}">New Password</label>
+                {{ password_form.new_password1 }}
+                {% if password_form.new_password1.help_text %}
+                    <div class="text-secondary password-help mt-1">
+                        {{ password_form.new_password1.help_text|safe }}
+                    </div>
+                {% endif %}
+                {% if password_form.new_password1.errors %}
+                    <div class="text-danger small">{{ password_form.new_password1.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <label for="{{ password_form.new_password2.id_for_label }}">Confirm New Password</label>
+                {{ password_form.new_password2 }}
+                {% if password_form.new_password2.errors %}
+                    <div class="text-danger small">{{ password_form.new_password2.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100">Save Changes</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

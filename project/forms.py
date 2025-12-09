@@ -30,10 +30,11 @@ class CreateTravelerForm(forms.ModelForm):
 
 class UpdateTravelerForm(forms.ModelForm):
     """Form to update an existing traveler."""
+
     class Meta:
         """Inner Meta class to specify model and fields that are displayed on form."""
         model = Traveler
-        fields = ['user', 'full_name']
+        fields = ['full_name']
 
 
 class CreateTripForm(forms.ModelForm):

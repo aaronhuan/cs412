@@ -4,12 +4,14 @@
 
 from django.shortcuts import render
 from django.urls import reverse
-from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.db.models import Count
 from .models import Traveler, Trip, ItineraryStop, Booking
+from django.contrib.auth import update_session_auth_hash
 from .forms import (
     CreateTravelerForm,
     UpdateTravelerForm,
@@ -46,11 +48,30 @@ class TravelerListView(ListView):
     template_name = "project/show_all_travelers.html"
     context_object_name = "travelers"
 
-class TravelerDetailView(DetailView):
-    """View to show a single traveler. Currently only accessible by admin users for future features."""
+class TravelerDetailView(MyLoginRequiredMixin, DetailView):
+    """View to show a single traveler."""
     model = Traveler 
     template_name = "project/show_traveler.html"
     context_object_name = "traveler"
+
+    def get_queryset(self):
+        """Limit traveler detail to the logged-in user unless staff."""
+        queryset = super().get_queryset()
+        if self.request.user.is_staff:
+            return queryset
+        traveler = self.get_logged_in_traveler()
+        if traveler:
+            return queryset.filter(pk=traveler.pk)
+        return queryset.none()
+
+    def get_context_data(self, **kwargs):
+        """Add simple trip statistics for the traveler."""
+        context = super().get_context_data(**kwargs)
+        trips = Trip.objects.filter(traveler=self.object)
+        context["total_trips"] = trips.count()
+        context["upcoming_trips"] = trips.filter(status=Trip.TripStatus.UPCOMING).count()
+        context["completed_trips"] = trips.filter(status=Trip.TripStatus.COMPLETED).count()
+        return context
 
 class TravelerCreateView(CreateView):
     """View to create a new traveler profile along with a user account."""
@@ -82,6 +103,55 @@ class TravelerUpdateView(UpdateView):
     model = Traveler
     form_class = UpdateTravelerForm
     template_name = "project/update_traveler_form.html"
+
+    def get_user_form(self, data=None):
+        """Return the built-in user change form, trimmed to username only."""
+        form = UserChangeForm(data=data, instance=self.object.user)
+        for field_name in list(form.fields.keys()):
+            if field_name != "username":
+                form.fields.pop(field_name)
+        return form
+
+    def get_password_form(self, data=None):
+        """Return the built-in password change form for this user."""
+        return PasswordChangeForm(user=self.object.user, data=data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.setdefault("user_form", self.get_user_form())
+        context.setdefault("password_form", self.get_password_form())
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """Handle traveler info, username, and optional password change together."""
+        self.object = self.get_object()
+        traveler_form = self.get_form()
+        user_form = self.get_user_form(request.POST)
+        password_form = self.get_password_form(request.POST)
+
+        password_requested = any(
+            request.POST.get(field) for field in ("old_password", "new_password1", "new_password2")
+        )
+
+        forms_valid = traveler_form.is_valid() and user_form.is_valid()
+        password_valid = True
+        if password_requested:
+            password_valid = password_form.is_valid()
+
+        if forms_valid and password_valid:
+            traveler_form.save()
+            user_form.save()
+            if password_requested:
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+            return HttpResponseRedirect(self.get_success_url())
+
+        return self.render_to_response(
+            self.get_context_data(form=traveler_form, user_form=user_form, password_form=password_form)
+        )
+
+    def get_success_url(self):
+        return reverse('traveler', kwargs={'pk': self.object.pk})
 
 
 class TravelerDeleteView(DeleteView):

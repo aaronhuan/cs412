@@ -7,7 +7,62 @@ Description: Detail view for a traveler profile with navigation to trips.
 {% extends 'project/base.html' %}
 
 {% block content %}
-    <p>{{traveler.full_name}}</p>
-    <p>{{traveler.created_at}}</p>
-    <a href="{% url 'triplist' %}" class="btn btn-primary">Trips</a>
+<div class="container py-3 page-section">
+    <div class="panel p-3 mb-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <a href="{% url 'triplist' %}" class="text-secondary text-decoration-none d-inline-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+                    </svg>
+                    <span>Back to Trip List</span>
+                </a>
+                <p class="h5 mb-0">My Profile</p>
+            </div>
+            <div>
+                <a class="btn btn-outline-secondary" href="{% url 'updatetraveler' traveler.pk %}">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel p-3">
+        <h6 class="fw-semibold mb-3">Profile Information</h6>
+        <div class="d-flex flex-column gap-2">
+            <div>
+                <p class="mb-1 text-secondary small">Full Name</p>
+                <p class="mb-0 fw-semibold text-body">{{ traveler.full_name }}</p>
+            </div>
+            <div>
+                <p class="mb-1 text-secondary small">Joined</p>
+                <p class="mb-0 fw-semibold text-body">{{ traveler.created_at|date:"F j, Y" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-4 border-top"></div>
+
+    <div class="panel p-3">
+        <h6 class="fw-semibold mb-3">Travel Statistics</h6>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="panel p-3 h-100">
+                    <p class="mb-1 text-secondary small">Total Trips</p>
+                    <p class="mb-0 fw-semibold fs-5 text-body">{{ total_trips|default:0 }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel p-3 h-100">
+                    <p class="mb-1 text-secondary small">Upcoming</p>
+                    <p class="mb-0 fw-semibold fs-5 text-body">{{ upcoming_trips|default:0 }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel p-3 h-100">
+                    <p class="mb-1 text-secondary small">Completed</p>
+                    <p class="mb-0 fw-semibold fs-5 text-body">{{ completed_trips|default:0 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

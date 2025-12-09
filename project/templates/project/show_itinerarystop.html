@@ -18,6 +18,11 @@ Description: Detail view for a single itinerary stop with status and actions.
         <div class="d-flex justify-content-between align-items-center">
             <p class="fw-semibold fs-4 text-body mb-0">{{ stop.stop }}</p>
             <div class="d-flex gap-2">
+                {% with request.user.traveler_set.all|first as profile_traveler %}
+                {% if profile_traveler %}
+                    <a class="btn btn-outline-dark" href="{% url 'traveler' profile_traveler.pk %}">Profile Info</a>
+                {% endif %}
+                {% endwith %}
                 <a class="btn btn-outline-secondary" href="{% url 'updatestop' stop.pk %}">Edit</a>
                 <a class="btn btn-outline-secondary" href="{% url 'deletestop' stop.pk %}">Delete</a>
             </div>

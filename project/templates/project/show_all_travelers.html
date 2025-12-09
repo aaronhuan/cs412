@@ -8,8 +8,21 @@ Description: List view that links to each traveler detail page.
 
 {% block content %}
 
-{# Loop through all travelers and link to their detail pages #}
-{% for traveler in travelers %}
-    <a href="{% url 'traveler' traveler.pk%}"><p>{{traveler.full_name}}</p></a>
-{% endfor %}
+<div class="container py-3 page-section">
+    <div class="d-flex justify-content-end align-items-center mb-3">
+        {% with request.user.traveler_set.all|first as profile_traveler %}
+        {% if profile_traveler %}
+            <a class="btn btn-outline-dark" href="{% url 'traveler' profile_traveler.pk %}">Profile Info</a>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="panel p-3">
+        <h5 class="mb-3">Travelers</h5>
+        {# Loop through all travelers and link to their detail pages #}
+        {% for traveler in travelers %}
+            <a class="d-block text-decoration-none mb-2" href="{% url 'traveler' traveler.pk%}">{{traveler.full_name}}</a>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
