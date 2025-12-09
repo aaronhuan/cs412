@@ -218,7 +218,7 @@ body {
     font-weight: 600;
 }
 
-.trip-form input,
+.trip-form input:not([type="checkbox"]),
 .trip-form select,
 .trip-form textarea {
     width: 100%;
@@ -229,6 +229,22 @@ body {
     box-sizing: border-box;
     font-size: 1rem;
     background: #ffffff;
+}
+
+.trip-form input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.trip-form .form-check {
+    padding-left: 0;
+}
+
+.trip-form .form-check-input {
+    position: static;
+    margin: 0;
 }
 
 .trip-form label {
